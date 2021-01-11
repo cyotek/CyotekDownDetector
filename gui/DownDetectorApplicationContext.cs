@@ -1,11 +1,9 @@
-﻿using Cyotek.DownDetector.Client.Properties;
+﻿using Cyotek.Demo.Windows.Forms;
+using Cyotek.DownDetector.Client.Properties;
 using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Net;
-using System.Net.Security;
-using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
 
 namespace Cyotek.DownDetector.Client
@@ -15,6 +13,8 @@ namespace Cyotek.DownDetector.Client
     #region Private Fields
 
     private DownDetectorClient _client;
+
+    private bool _loading;
 
     private SettingsDialog _settingsDialog;
 
@@ -39,28 +39,7 @@ namespace Cyotek.DownDetector.Client
       this.SetIcon();
     }
 
-    private void UriSslPolicyErrorHandler(object sender, UriSslPolicyErrorEventArgs e)
-    {
-      this.Log(string.Format("{0}: {1}", e.SslPolicyErrors, e.Uri));
-    }
-
     #endregion Public Constructors
-
-    #region Internal Methods
-
-    internal static void OpenUrl(string url)
-    {
-      try
-      {
-        Process.Start(url);
-      }
-      catch (Exception ex)
-      {
-        MessageBox.Show(ex.GetBaseException().Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-      }
-    }
-
-    #endregion Internal Methods
 
     #region Protected Methods
 
@@ -72,7 +51,7 @@ namespace Cyotek.DownDetector.Client
         _client.UriChecked -= this.UriCheckedHandler;
         _client.UriStatusChanged -= this.UriStatusChangedHandler;
         _client.UriException -= this.UriExceptionHandler;
-      _client.UriSslPolicyError -= this.UriSslPolicyErrorHandler;
+        _client.UriSslPolicyError -= this.UriSslPolicyErrorHandler;
         _client.Dispose();
         _client = null;
       }
@@ -108,14 +87,14 @@ namespace Cyotek.DownDetector.Client
 
     #region Private Methods
 
-    private void ExitContextMenuClickHandler(object sender, EventArgs eventArgs)
-    {
-      this.ExitThread();
-    }
-
     private async void CheckNowContextMenuClickHandler(object sender, EventArgs eventArgs)
     {
       await _client.CheckAll().ConfigureAwait(false);
+    }
+
+    private void ExitContextMenuClickHandler(object sender, EventArgs eventArgs)
+    {
+      this.ExitThread();
     }
 
     private int GetOfflineCount()
@@ -204,8 +183,6 @@ namespace Cyotek.DownDetector.Client
         Json.ParseFileInto(_settingsFileName, _client.Settings);
       }
     }
-
-    private bool _loading;
 
     private void LoadStatusItems()
     {
@@ -344,6 +321,22 @@ namespace Cyotek.DownDetector.Client
       }
     }
 
+    private void UpdateStatusIcon(UriStatusInfo statusInfo)
+    {
+      ToolStripItemCollection items;
+
+      items = this.ContextMenu.Items;
+
+      for (int i = 0; i < items.Count; i++)
+      {
+        if (items[i] is ToolStripMenuItem item && item.Tag is Uri uri && uri.Equals(statusInfo.Uri))
+        {
+          item.Image = this.GetStatusImage(statusInfo.Status);
+          break;
+        }
+      }
+    }
+
     private void UriCheckedHandler(object sender, UriEventArgs e)
     {
       if (this.InvokeRequired)
@@ -385,6 +378,11 @@ namespace Cyotek.DownDetector.Client
       }
     }
 
+    private void UriSslPolicyErrorHandler(object sender, UriSslPolicyErrorEventArgs e)
+    {
+      this.Log(string.Format("{0}: {1}", e.SslPolicyErrors, e.Uri));
+    }
+
     private void UriStatusChangedHandler(object sender, UriStatusInfoEventArgs e)
     {
       if (this.InvokeRequired)
@@ -412,27 +410,11 @@ namespace Cyotek.DownDetector.Client
       }
     }
 
-    private void UpdateStatusIcon(UriStatusInfo statusInfo)
-    {
-      ToolStripItemCollection items;
-
-      items = this.ContextMenu.Items;
-
-      for (int i = 0; i < items.Count; i++)
-      {
-        if (items[i] is ToolStripMenuItem item && item.Tag is Uri uri && uri.Equals(statusInfo.Uri))
-        {
-          item.Image = this.GetStatusImage(statusInfo.Status);
-          break;
-        }
-      }
-    }
-
     private void UrlMenuClickHandler(object sender, EventArgs e)
     {
       if (sender is ToolStripMenuItem item && item.Tag is Uri uri)
       {
-        DownDetectorApplicationContext.OpenUrl(uri.AbsoluteUri);
+        AboutPanel.OpenUrl(uri.AbsoluteUri);
       }
     }
 

@@ -1,0 +1,3 @@
+﻿Uses PetaJson <https://github.com/toptensoftware/JsonKit>.
+
+Also uses <https://github.com/dahall/TimeSpan2>.

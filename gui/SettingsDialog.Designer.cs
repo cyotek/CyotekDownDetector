@@ -48,6 +48,8 @@ namespace Cyotek.DownDetector.Client
       this.settingsTabListPage = new Cyotek.Windows.Forms.TabListPage();
       this.okButton = new System.Windows.Forms.Button();
       this.cancelButton = new System.Windows.Forms.Button();
+      this.aboutTabListPage = new Cyotek.Windows.Forms.TabListPage();
+      this.aboutPanel = new Cyotek.Demo.Windows.Forms.AboutPanel();
       intervalLabel = new System.Windows.Forms.Label();
       checkSettingsGroupBox = new System.Windows.Forms.GroupBox();
       label1 = new System.Windows.Forms.Label();
@@ -63,6 +65,7 @@ namespace Cyotek.DownDetector.Client
       this.tabList.SuspendLayout();
       this.addressTabListPage.SuspendLayout();
       this.settingsTabListPage.SuspendLayout();
+      this.aboutTabListPage.SuspendLayout();
       this.SuspendLayout();
       // 
       // intervalLabel
@@ -205,6 +208,7 @@ namespace Cyotek.DownDetector.Client
             | System.Windows.Forms.AnchorStyles.Right)));
       this.tabList.Controls.Add(this.addressTabListPage);
       this.tabList.Controls.Add(this.settingsTabListPage);
+      this.tabList.Controls.Add(this.aboutTabListPage);
       this.tabList.Location = new System.Drawing.Point(12, 12);
       this.tabList.Name = "tabList";
       this.tabList.Padding = new System.Windows.Forms.Padding(6, 0, 0, 0);
@@ -258,6 +262,21 @@ namespace Cyotek.DownDetector.Client
       this.cancelButton.UseVisualStyleBackColor = true;
       this.cancelButton.Click += new System.EventHandler(this.CancelButton_Click);
       // 
+      // aboutTabListPage
+      // 
+      this.aboutTabListPage.Controls.Add(this.aboutPanel);
+      this.aboutTabListPage.Name = "aboutTabListPage";
+      this.aboutTabListPage.Size = new System.Drawing.Size(602, 506);
+      this.aboutTabListPage.Text = "About";
+      // 
+      // aboutPanel
+      // 
+      this.aboutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.aboutPanel.Location = new System.Drawing.Point(0, 0);
+      this.aboutPanel.Name = "aboutPanel";
+      this.aboutPanel.Size = new System.Drawing.Size(602, 506);
+      this.aboutPanel.TabIndex = 0;
+      // 
       // SettingsDialog
       // 
       this.AcceptButton = this.okButton;
@@ -285,6 +304,7 @@ namespace Cyotek.DownDetector.Client
       this.tabList.ResumeLayout(false);
       this.addressTabListPage.ResumeLayout(false);
       this.settingsTabListPage.ResumeLayout(false);
+      this.aboutTabListPage.ResumeLayout(false);
       this.ResumeLayout(false);
 
     }
@@ -302,5 +322,7 @@ namespace Cyotek.DownDetector.Client
     private System.Windows.Forms.CheckBox showNotificationsCheckBox;
     private System.Windows.Forms.CheckBox startWithWindowsCheckBox;
     private UriInfoCollectionEditor uriInfoCollectionEditor;
+    private Windows.Forms.TabListPage aboutTabListPage;
+    private Demo.Windows.Forms.AboutPanel aboutPanel;
   }
 }
