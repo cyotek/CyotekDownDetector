@@ -17,8 +17,6 @@ namespace Cyotek.DownDetector
 
     private bool _showNotifications;
 
-    private bool _startWithWindows;
-
     private UriStatusInfoCollection _statuses;
 
     private TimeSpan _unstableInterval;
@@ -91,12 +89,6 @@ namespace Cyotek.DownDetector
     {
       get { return _showNotifications; }
       set { this.UpdateAssignment(ref _showNotifications, value, nameof(this.ShowNotifications)); }
-    }
-
-    public bool StartWithWindows
-    {
-      get { return _startWithWindows; }
-      set { this.UpdateAssignment(ref _startWithWindows, value, nameof(this.StartWithWindows)); }
     }
 
     public UriStatusInfoCollection Statuses

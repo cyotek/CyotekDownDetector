@@ -77,13 +77,14 @@ namespace Cyotek.DownDetector.Client
     {
       _settings.Addresses.Clear();
       _settings.Addresses.AddRange(uriInfoCollectionEditor.Items);
+      _settings.Addresses.Sort();
+
       _settings.Interval = intervalTimeSpanPicker.Value;
       _settings.UnstableInterval = unstableIntervalTimeSpanPicker.Value;
       _settings.MaximumDisplayItems = (int)displayCountNumericUpDown.Value;
       _settings.ShowNotifications = showNotificationsCheckBox.Checked;
-      _settings.StartWithWindows = startWithWindowsCheckBox.Checked;
 
-      _settings.Addresses.Sort();
+      this.UpdateStartupSetting();
 
       this.DialogResult = DialogResult.OK;
       this.Close();
@@ -102,7 +103,29 @@ namespace Cyotek.DownDetector.Client
         unstableIntervalTimeSpanPicker.Value = _settings.UnstableInterval;
         displayCountNumericUpDown.Value = _settings.MaximumDisplayItems;
         showNotificationsCheckBox.Checked = _settings.ShowNotifications;
-        startWithWindowsCheckBox.Checked = _settings.StartWithWindows;
+        startWithWindowsCheckBox.Checked = StartupManager.IsRegisteredForStartup();
+      }
+    }
+
+    private void UpdateStartupSetting()
+    {
+      try
+      {
+        if (StartupManager.IsRegisteredForStartup() != startWithWindowsCheckBox.Checked)
+        {
+          if (startWithWindowsCheckBox.Checked)
+          {
+            StartupManager.RegisterStartupApplication();
+          }
+          else
+          {
+            StartupManager.UnregisterStartupApplication();
+          }
+        }
+      }
+      catch (Exception ex)
+      {
+        MessageBox.Show(string.Format("Failed to process startup changes. {0}", ex.Message), Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
       }
     }
 

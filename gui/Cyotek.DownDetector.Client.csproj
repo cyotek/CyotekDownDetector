@@ -87,6 +87,7 @@
     <Compile Include="PetaJson.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StartupManager.cs" />
     <Compile Include="TrayIconApplicationContext.cs" />
     <Compile Include="UiHelpers.cs" />
     <Compile Include="UriInfoCollectionEditor.cs">
