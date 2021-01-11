@@ -1,5 +1,4 @@
-﻿using Cyotek.DownDetector.Client.Properties;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
@@ -28,11 +27,10 @@ namespace Cyotek.Demo.Windows.Forms
     {
       base.MaximizeBox = false;
       base.MinimizeBox = false;
-      base.ShowIcon = true;
-      base.ShowInTaskbar = true;
-      base.StartPosition = FormStartPosition.CenterScreen;
+      base.ShowIcon = false;
+      base.ShowInTaskbar = false;
+      base.StartPosition = FormStartPosition.CenterParent;
       base.FormBorderStyle = FormBorderStyle.FixedDialog;
-      base.Icon = Resources.TrayIcon;
     }
 
     #endregion Protected Constructors
@@ -60,21 +58,21 @@ namespace Cyotek.Demo.Windows.Forms
       set { base.MinimizeBox = value; }
     }
 
-    [DefaultValue(true)]
+    [DefaultValue(false)]
     public new bool ShowIcon
     {
       get { return base.ShowIcon; }
       set { base.ShowIcon = value; }
     }
 
-    [DefaultValue(true)]
+    [DefaultValue(false)]
     public new bool ShowInTaskbar
     {
       get { return base.ShowInTaskbar; }
       set { base.ShowInTaskbar = value; }
     }
 
-    [DefaultValue(typeof(FormStartPosition), "CenterScreen")]
+    [DefaultValue(typeof(FormStartPosition), "CenterParent")]
     public new FormStartPosition StartPosition
     {
       get { return base.StartPosition; }

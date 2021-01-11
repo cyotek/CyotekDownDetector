@@ -76,19 +76,14 @@ namespace Cyotek.DownDetector.Client
     private void OkButton_Click(object sender, EventArgs e)
     {
       _settings.Addresses.Clear();
+      _settings.Addresses.AddRange(uriInfoCollectionEditor.Items);
       _settings.Interval = intervalTimeSpanPicker.Value;
       _settings.UnstableInterval = unstableIntervalTimeSpanPicker.Value;
       _settings.MaximumDisplayItems = (int)displayCountNumericUpDown.Value;
       _settings.ShowNotifications = showNotificationsCheckBox.Checked;
       _settings.StartWithWindows = startWithWindowsCheckBox.Checked;
 
-      foreach (string line in addressesTextBox.Lines)
-      {
-        if (!string.IsNullOrEmpty(line))
-        {
-          _settings.Addresses.Add(new Uri(line));
-        }
-      }
+      _settings.Addresses.Sort();
 
       this.DialogResult = DialogResult.OK;
       this.Close();
@@ -101,7 +96,8 @@ namespace Cyotek.DownDetector.Client
 
       if (_settings != null)
       {
-        addressesTextBox.Text = string.Join(Environment.NewLine, _settings.Addresses);
+        uriInfoCollectionEditor.Statuses = _settings.Statuses;
+        uriInfoCollectionEditor.Items = _settings.Addresses.Clone();
         intervalTimeSpanPicker.Value = _settings.Interval;
         unstableIntervalTimeSpanPicker.Value = _settings.UnstableInterval;
         displayCountNumericUpDown.Value = _settings.MaximumDisplayItems;

@@ -121,7 +121,7 @@ namespace Cyotek.DownDetector.Client
     private int GetOfflineCount()
     {
       int offlineCount;
-      UriCollection addresses;
+      UriInfoCollection addresses;
       UriStatusInfoCollection statuses;
 
       offlineCount = 0;
@@ -172,7 +172,7 @@ namespace Cyotek.DownDetector.Client
     private UriStatus GetWorstStatus()
     {
       UriStatus worstStatus;
-      UriCollection addresses;
+      UriInfoCollection addresses;
       UriStatusInfoCollection statuses;
 
       worstStatus = UriStatus.Online;
@@ -212,7 +212,7 @@ namespace Cyotek.DownDetector.Client
       if (!_loading)
       {
         ToolStripItemCollection items;
-        UriCollection addresses;
+        UriInfoCollection addresses;
         UriStatusInfoCollection statuses;
 
         _loading = true;
@@ -229,7 +229,7 @@ namespace Cyotek.DownDetector.Client
           UriStatus status;
           ToolStripMenuItem item;
 
-          uri = addresses[i];
+          uri = addresses[i].Uri;
 
           status = statuses.TryGetValue(uri, out UriStatusInfo statusInfo)
             ? statusInfo.Status

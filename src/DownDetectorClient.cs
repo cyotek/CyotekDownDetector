@@ -196,7 +196,7 @@ namespace Cyotek.DownDetector
     {
       _timer.Stop();
 
-      foreach (Uri uri in _settings.Addresses)
+      foreach (UriInfo uri in _settings.Addresses)
       {
         await this.CheckUri(uri).ConfigureAwait(false);
       }
@@ -306,11 +306,14 @@ namespace Cyotek.DownDetector
 
     #region Private Methods
 
-    private async Task CheckUri(Uri uri)
+    private async Task CheckUri(UriInfo uriInfo)
     {
+      Uri uri;
       UriEventArgs args;
       UriStatus newStatus;
       Exception error;
+
+      uri = uriInfo.Uri;
 
       if (!_settings.Statuses.TryGetValue(uri, out UriStatusInfo status))
       {
@@ -328,7 +331,7 @@ namespace Cyotek.DownDetector
 
       this.OnUriChecking(args);
 
-      (newStatus, error) = await this.GetUriStatus(uri).ConfigureAwait(false);
+      (newStatus, error) = await this.GetUriStatus(uriInfo).ConfigureAwait(false);
 
       if (error != null)
       {
@@ -340,7 +343,7 @@ namespace Cyotek.DownDetector
       this.OnUriChecked(args);
     }
 
-    private async Task<Tuple<UriStatus, Exception>> GetUriStatus(Uri uri)
+    private async Task<Tuple<UriStatus, Exception>> GetUriStatus(UriInfo uriInfo)
     {
       UriStatus newStatus;
       HttpRequestMessage request;
@@ -348,9 +351,11 @@ namespace Cyotek.DownDetector
 
       request = new HttpRequestMessage
       {
-        Method = HttpMethod.Get,
-        RequestUri = uri
+        Method = uriInfo.UseHead ? HttpMethod.Head : HttpMethod.Get,
+        RequestUri = uriInfo.Uri
       };
+
+      //_httpClientHandler.AllowAutoRedirect = uriInfo.FollowRedirects;
 
       _sslPolicyErrors = SslPolicyErrors.None;
 
@@ -366,7 +371,9 @@ namespace Cyotek.DownDetector
 
         if (newStatus == UriStatus.Online && _sslPolicyErrors != SslPolicyErrors.None)
         {
-          newStatus = UriStatus.InvalidCertificate;
+          newStatus = uriInfo.IgnoreSslErrors
+            ? UriStatus.InvalidCertificate
+            : UriStatus.Unstable;
         }
 
         error = null;

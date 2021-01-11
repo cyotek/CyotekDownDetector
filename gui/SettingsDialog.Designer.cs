@@ -41,13 +41,13 @@ namespace Cyotek.DownDetector.Client
       this.intervalTimeSpanPicker = new System.Windows.Forms.TimeSpanPicker();
       this.showNotificationsCheckBox = new System.Windows.Forms.CheckBox();
       this.displayCountNumericUpDown = new System.Windows.Forms.NumericUpDown();
+      this.startWithWindowsCheckBox = new System.Windows.Forms.CheckBox();
       this.tabList = new Cyotek.Windows.Forms.TabList();
       this.addressTabListPage = new Cyotek.Windows.Forms.TabListPage();
-      this.addressesTextBox = new System.Windows.Forms.TextBox();
+      this.uriInfoCollectionEditor = new Cyotek.DownDetector.Client.UriInfoCollectionEditor();
       this.settingsTabListPage = new Cyotek.Windows.Forms.TabListPage();
       this.okButton = new System.Windows.Forms.Button();
       this.cancelButton = new System.Windows.Forms.Button();
-      this.startWithWindowsCheckBox = new System.Windows.Forms.CheckBox();
       intervalLabel = new System.Windows.Forms.Label();
       checkSettingsGroupBox = new System.Windows.Forms.GroupBox();
       label1 = new System.Windows.Forms.Label();
@@ -59,10 +59,10 @@ namespace Cyotek.DownDetector.Client
       checkSettingsGroupBox.SuspendLayout();
       groupBox1.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.displayCountNumericUpDown)).BeginInit();
+      groupBox2.SuspendLayout();
       this.tabList.SuspendLayout();
       this.addressTabListPage.SuspendLayout();
       this.settingsTabListPage.SuspendLayout();
-      groupBox2.SuspendLayout();
       this.SuspendLayout();
       // 
       // intervalLabel
@@ -86,7 +86,7 @@ namespace Cyotek.DownDetector.Client
       checkSettingsGroupBox.Controls.Add(this.intervalTimeSpanPicker);
       checkSettingsGroupBox.Location = new System.Drawing.Point(0, -1);
       checkSettingsGroupBox.Name = "checkSettingsGroupBox";
-      checkSettingsGroupBox.Size = new System.Drawing.Size(618, 120);
+      checkSettingsGroupBox.Size = new System.Drawing.Size(602, 120);
       checkSettingsGroupBox.TabIndex = 0;
       checkSettingsGroupBox.TabStop = false;
       checkSettingsGroupBox.Text = "Availability Checks";
@@ -143,9 +143,9 @@ namespace Cyotek.DownDetector.Client
       groupBox1.Controls.Add(this.showNotificationsCheckBox);
       groupBox1.Controls.Add(this.displayCountNumericUpDown);
       groupBox1.Controls.Add(displayCountLabel);
-      groupBox1.Location = new System.Drawing.Point(1, 125);
+      groupBox1.Location = new System.Drawing.Point(0, 125);
       groupBox1.Name = "groupBox1";
-      groupBox1.Size = new System.Drawing.Size(618, 76);
+      groupBox1.Size = new System.Drawing.Size(602, 76);
       groupBox1.TabIndex = 6;
       groupBox1.TabStop = false;
       groupBox1.Text = "Display";
@@ -176,80 +176,14 @@ namespace Cyotek.DownDetector.Client
       displayCountLabel.TabIndex = 0;
       displayCountLabel.Text = "Number of items to &display on menu:";
       // 
-      // tabList
-      // 
-      this.tabList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-      this.tabList.Controls.Add(this.addressTabListPage);
-      this.tabList.Controls.Add(this.settingsTabListPage);
-      this.tabList.Location = new System.Drawing.Point(12, 12);
-      this.tabList.Name = "tabList";
-      this.tabList.Padding = new System.Windows.Forms.Padding(6, 0, 0, 0);
-      this.tabList.Size = new System.Drawing.Size(776, 397);
-      this.tabList.TabIndex = 0;
-      // 
-      // addressTabListPage
-      // 
-      this.addressTabListPage.Controls.Add(this.addressesTextBox);
-      this.addressTabListPage.Name = "addressTabListPage";
-      this.addressTabListPage.Size = new System.Drawing.Size(618, 395);
-      this.addressTabListPage.Text = "Addresses";
-      // 
-      // addressesTextBox
-      // 
-      this.addressesTextBox.AcceptsReturn = true;
-      this.addressesTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-      this.addressesTextBox.Location = new System.Drawing.Point(0, 0);
-      this.addressesTextBox.Multiline = true;
-      this.addressesTextBox.Name = "addressesTextBox";
-      this.addressesTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-      this.addressesTextBox.Size = new System.Drawing.Size(618, 395);
-      this.addressesTextBox.TabIndex = 0;
-      this.addressesTextBox.WordWrap = false;
-      // 
-      // settingsTabListPage
-      // 
-      this.settingsTabListPage.Controls.Add(groupBox2);
-      this.settingsTabListPage.Controls.Add(groupBox1);
-      this.settingsTabListPage.Controls.Add(checkSettingsGroupBox);
-      this.settingsTabListPage.Name = "settingsTabListPage";
-      this.settingsTabListPage.Size = new System.Drawing.Size(618, 395);
-      this.settingsTabListPage.Text = "Settings";
-      // 
-      // okButton
-      // 
-      this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-      this.okButton.Location = new System.Drawing.Point(632, 415);
-      this.okButton.Name = "okButton";
-      this.okButton.Size = new System.Drawing.Size(75, 23);
-      this.okButton.TabIndex = 0;
-      this.okButton.Text = "OK";
-      this.okButton.UseVisualStyleBackColor = true;
-      this.okButton.Click += new System.EventHandler(this.OkButton_Click);
-      // 
-      // cancelButton
-      // 
-      this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-      this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-      this.cancelButton.Location = new System.Drawing.Point(713, 415);
-      this.cancelButton.Name = "cancelButton";
-      this.cancelButton.Size = new System.Drawing.Size(75, 23);
-      this.cancelButton.TabIndex = 1;
-      this.cancelButton.Text = "Cancel";
-      this.cancelButton.UseVisualStyleBackColor = true;
-      this.cancelButton.Click += new System.EventHandler(this.CancelButton_Click);
-      // 
       // groupBox2
       // 
       groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
       groupBox2.Controls.Add(this.startWithWindowsCheckBox);
-      groupBox2.Location = new System.Drawing.Point(1, 207);
+      groupBox2.Location = new System.Drawing.Point(0, 207);
       groupBox2.Name = "groupBox2";
-      groupBox2.Size = new System.Drawing.Size(618, 76);
+      groupBox2.Size = new System.Drawing.Size(602, 76);
       groupBox2.TabIndex = 8;
       groupBox2.TabStop = false;
       groupBox2.Text = "Startup";
@@ -264,13 +198,73 @@ namespace Cyotek.DownDetector.Client
       this.startWithWindowsCheckBox.Text = "Start &with Windows";
       this.startWithWindowsCheckBox.UseVisualStyleBackColor = true;
       // 
+      // tabList
+      // 
+      this.tabList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.tabList.Controls.Add(this.addressTabListPage);
+      this.tabList.Controls.Add(this.settingsTabListPage);
+      this.tabList.Location = new System.Drawing.Point(12, 12);
+      this.tabList.Name = "tabList";
+      this.tabList.Padding = new System.Windows.Forms.Padding(6, 0, 0, 0);
+      this.tabList.Size = new System.Drawing.Size(760, 508);
+      this.tabList.TabIndex = 0;
+      // 
+      // addressTabListPage
+      // 
+      this.addressTabListPage.Controls.Add(this.uriInfoCollectionEditor);
+      this.addressTabListPage.Name = "addressTabListPage";
+      this.addressTabListPage.Size = new System.Drawing.Size(602, 506);
+      this.addressTabListPage.Text = "Addresses";
+      // 
+      // uriInfoCollectionEditor
+      // 
+      this.uriInfoCollectionEditor.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.uriInfoCollectionEditor.Location = new System.Drawing.Point(0, 0);
+      this.uriInfoCollectionEditor.Name = "uriInfoCollectionEditor";
+      this.uriInfoCollectionEditor.Size = new System.Drawing.Size(602, 506);
+      this.uriInfoCollectionEditor.TabIndex = 0;
+      // 
+      // settingsTabListPage
+      // 
+      this.settingsTabListPage.Controls.Add(groupBox2);
+      this.settingsTabListPage.Controls.Add(groupBox1);
+      this.settingsTabListPage.Controls.Add(checkSettingsGroupBox);
+      this.settingsTabListPage.Name = "settingsTabListPage";
+      this.settingsTabListPage.Size = new System.Drawing.Size(602, 506);
+      this.settingsTabListPage.Text = "Settings";
+      // 
+      // okButton
+      // 
+      this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+      this.okButton.Location = new System.Drawing.Point(616, 526);
+      this.okButton.Name = "okButton";
+      this.okButton.Size = new System.Drawing.Size(75, 23);
+      this.okButton.TabIndex = 0;
+      this.okButton.Text = "OK";
+      this.okButton.UseVisualStyleBackColor = true;
+      this.okButton.Click += new System.EventHandler(this.OkButton_Click);
+      // 
+      // cancelButton
+      // 
+      this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+      this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+      this.cancelButton.Location = new System.Drawing.Point(697, 526);
+      this.cancelButton.Name = "cancelButton";
+      this.cancelButton.Size = new System.Drawing.Size(75, 23);
+      this.cancelButton.TabIndex = 1;
+      this.cancelButton.Text = "Cancel";
+      this.cancelButton.UseVisualStyleBackColor = true;
+      this.cancelButton.Click += new System.EventHandler(this.CancelButton_Click);
+      // 
       // SettingsDialog
       // 
       this.AcceptButton = this.okButton;
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.CancelButton = this.cancelButton;
-      this.ClientSize = new System.Drawing.Size(800, 450);
+      this.ClientSize = new System.Drawing.Size(784, 561);
       this.Controls.Add(this.okButton);
       this.Controls.Add(this.cancelButton);
       this.Controls.Add(this.tabList);
@@ -278,18 +272,19 @@ namespace Cyotek.DownDetector.Client
       this.MaximizeBox = true;
       this.MinimizeBox = true;
       this.Name = "SettingsDialog";
+      this.ShowIcon = true;
+      this.ShowInTaskbar = true;
       this.Text = "Cyotek Down Detector";
       checkSettingsGroupBox.ResumeLayout(false);
       checkSettingsGroupBox.PerformLayout();
       groupBox1.ResumeLayout(false);
       groupBox1.PerformLayout();
       ((System.ComponentModel.ISupportInitialize)(this.displayCountNumericUpDown)).EndInit();
-      this.tabList.ResumeLayout(false);
-      this.addressTabListPage.ResumeLayout(false);
-      this.addressTabListPage.PerformLayout();
-      this.settingsTabListPage.ResumeLayout(false);
       groupBox2.ResumeLayout(false);
       groupBox2.PerformLayout();
+      this.tabList.ResumeLayout(false);
+      this.addressTabListPage.ResumeLayout(false);
+      this.settingsTabListPage.ResumeLayout(false);
       this.ResumeLayout(false);
 
     }
@@ -301,11 +296,11 @@ namespace Cyotek.DownDetector.Client
     private Cyotek.Windows.Forms.TabListPage settingsTabListPage;
     private System.Windows.Forms.Button okButton;
     private System.Windows.Forms.Button cancelButton;
-    private System.Windows.Forms.TextBox addressesTextBox;
     private System.Windows.Forms.TimeSpanPicker intervalTimeSpanPicker;
     private System.Windows.Forms.TimeSpanPicker unstableIntervalTimeSpanPicker;
     private System.Windows.Forms.NumericUpDown displayCountNumericUpDown;
     private System.Windows.Forms.CheckBox showNotificationsCheckBox;
     private System.Windows.Forms.CheckBox startWithWindowsCheckBox;
+    private UriInfoCollectionEditor uriInfoCollectionEditor;
   }
 }

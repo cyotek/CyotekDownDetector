@@ -9,7 +9,7 @@ namespace Cyotek.DownDetector
   {
     #region Private Fields
 
-    private UriCollection _addresses;
+    private UriInfoCollection _addresses;
 
     private TimeSpan _interval;
 
@@ -29,7 +29,7 @@ namespace Cyotek.DownDetector
 
     public DownDetectorSettings()
     {
-      _addresses = new UriCollection();
+      _addresses = new UriInfoCollection();
       _addresses.CollectionChanged += this.AddressesCollectionChangedHandler;
 
       _statuses = new UriStatusInfoCollection();
@@ -51,7 +51,7 @@ namespace Cyotek.DownDetector
 
     #region Public Properties
 
-    public UriCollection Addresses
+    public UriInfoCollection Addresses
     {
       get { return _addresses; }
       set

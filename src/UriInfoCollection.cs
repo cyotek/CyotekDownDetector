@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Cyotek.SvnMigrate;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 
 namespace Cyotek.DownDetector
 {
-  public class UriStatusInfoCollection : KeyedCollection<string, UriStatusInfo>, INotifyCollectionChanged
+  public class UriInfoCollection : KeyedCollection<string, UriInfo>, INotifyCollectionChanged
   {
     #region Public Events
 
@@ -15,34 +16,52 @@ namespace Cyotek.DownDetector
 
     #region Public Methods
 
-    public bool TryGetValue(UriInfo uriInfo, out UriStatusInfo value)
+    public UriInfo Add(string url)
     {
-      return this.TryGetValue(uriInfo.Uri, out value);
+      return this.Add(new Uri(url));
     }
 
-    public bool TryGetValue(string url, out UriStatusInfo value)
+    public UriInfo Add(Uri uri)
     {
-      IDictionary<string, UriStatusInfo> dictionary;
-      bool result;
+      UriInfo uriInfo;
 
-      dictionary = this.Dictionary;
-
-      if (dictionary != null)
+      uriInfo = new UriInfo
       {
-        result = dictionary.TryGetValue(url, out value);
-      }
-      else
-      {
-        result = false;
-        value = null;
-      }
+        Uri = uri
+      };
 
-      return result;
+      this.Add(uriInfo);
+
+      return uriInfo;
     }
 
-    public bool TryGetValue(Uri uri, out UriStatusInfo value)
+    public void AddRange(IEnumerable<UriInfo> items)
     {
-      return this.TryGetValue(uri.AbsoluteUri, out value);
+      foreach (UriInfo item in items)
+      {
+        this.Add(item);
+      }
+    }
+
+    public UriInfoCollection Clone()
+    {
+      UriInfoCollection clone;
+
+      clone = new UriInfoCollection();
+
+      for (int i = 0; i < this.Count; i++)
+      {
+        clone.Add(this[i].Clone());
+      }
+
+      return clone;
+    }
+
+    public void Sort()
+    {
+      SortHelpers.QuickSort(this.Items, (x, y) => x.Uri.AbsoluteUri.CompareTo(y.Uri.AbsoluteUri));
+
+      this.OnNotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
     }
 
     #endregion Public Methods
@@ -56,12 +75,12 @@ namespace Cyotek.DownDetector
       this.OnNotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
     }
 
-    protected override string GetKeyForItem(UriStatusInfo item)
+    protected override string GetKeyForItem(UriInfo item)
     {
       return item.Uri.AbsoluteUri;
     }
 
-    protected override void InsertItem(int index, UriStatusInfo item)
+    protected override void InsertItem(int index, UriInfo item)
     {
       base.InsertItem(index, item);
 
@@ -79,7 +98,7 @@ namespace Cyotek.DownDetector
 
     protected override void RemoveItem(int index)
     {
-      UriStatusInfo oldItem;
+      UriInfo oldItem;
 
       oldItem = this[index];
 
@@ -88,9 +107,9 @@ namespace Cyotek.DownDetector
       this.OnNotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, oldItem, index));
     }
 
-    protected override void SetItem(int index, UriStatusInfo item)
+    protected override void SetItem(int index, UriInfo item)
     {
-      UriStatusInfo oldItem;
+      UriInfo oldItem;
 
       oldItem = this[index];
 
