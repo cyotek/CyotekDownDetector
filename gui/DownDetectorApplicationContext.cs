@@ -4,6 +4,7 @@ using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Text;
 using System.Windows.Forms;
 
 namespace Cyotek.DownDetector.Client
@@ -15,6 +16,12 @@ namespace Cyotek.DownDetector.Client
     private DownDetectorClient _client;
 
     private bool _loading;
+
+    private string _logFileName;
+
+    private Stream _logStream;
+
+    private TextWriter _logWriter;
 
     private SettingsDialog _settingsDialog;
 
@@ -32,7 +39,9 @@ namespace Cyotek.DownDetector.Client
       _client.UriStatusChanged += this.UriStatusChangedHandler;
       _client.UriException += this.UriExceptionHandler;
       _client.UriSslPolicyError += this.UriSslPolicyErrorHandler;
+      _client.Checking += this.CheckingHandler;
 
+      this.InitializeLog();
       this.LoadSettings();
 
       this.SetDefaultToolTip();
@@ -47,11 +56,25 @@ namespace Cyotek.DownDetector.Client
     {
       if (disposing)
       {
+        if (_logWriter != null)
+        {
+          _logWriter.Flush();
+          _logWriter.Dispose();
+          _logWriter = null;
+        }
+
+        if (_logStream != null)
+        {
+          _logStream.Dispose();
+          _logStream = null;
+        }
+
         _client.UriChecking -= this.UriCheckingHandler;
         _client.UriChecked -= this.UriCheckedHandler;
         _client.UriStatusChanged -= this.UriStatusChangedHandler;
         _client.UriException -= this.UriExceptionHandler;
         _client.UriSslPolicyError -= this.UriSslPolicyErrorHandler;
+        _client.Checking -= this.CheckingHandler;
         _client.Dispose();
         _client = null;
       }
@@ -85,6 +108,11 @@ namespace Cyotek.DownDetector.Client
     #endregion Protected Methods
 
     #region Private Methods
+
+    private void CheckingHandler(object sender, EventArgs e)
+    {
+      this.Log("Checking sites");
+    }
 
     private async void CheckNowContextMenuClickHandler(object sender, EventArgs eventArgs)
     {
@@ -173,6 +201,14 @@ namespace Cyotek.DownDetector.Client
       return worstStatus;
     }
 
+    private void InitializeLog()
+    {
+      _logFileName = Path.ChangeExtension(Application.ExecutablePath, ".log");
+
+      _logStream = File.Open(_logFileName, FileMode.Append, FileAccess.Write, FileShare.Read);
+      _logWriter = new StreamWriter(_logStream, Encoding.UTF8);
+    }
+
     private void LoadSettings()
     {
       _settingsFileName = Path.ChangeExtension(Application.ExecutablePath, ".json");
@@ -255,7 +291,13 @@ namespace Cyotek.DownDetector.Client
 
     private void Log(string text)
     {
-      Trace.WriteLine(text);
+#if DEBUG
+      Debug.WriteLine(text);
+#endif
+
+      _logWriter.Write(DateTime.UtcNow);
+      _logWriter.Write('\t');
+      _logWriter.WriteLine(text);
     }
 
     private void RemoveExistingStatusItem(ToolStripItemCollection items)
@@ -381,7 +423,10 @@ namespace Cyotek.DownDetector.Client
 
         text = string.Format("Checking: {0}", e.Uri);
 
-        this.Log(text);
+#if DEBUG
+        Debug.WriteLine(text);
+#endif
+
         this.SetToolTip(text);
       }
     }
