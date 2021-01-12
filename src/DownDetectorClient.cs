@@ -194,11 +194,15 @@ namespace Cyotek.DownDetector
 
     public async Task CheckAll()
     {
+      UriInfo[] info;
+
       _timer.Stop();
 
-      foreach (UriInfo uri in _settings.Addresses)
+      info = _settings.Addresses.ToArray();
+
+      for (int i = 0; i < info.Length; i++)
       {
-        await this.CheckUri(uri).ConfigureAwait(false);
+        await this.CheckUri(info[i]).ConfigureAwait(false);
       }
 
       this.Reset();

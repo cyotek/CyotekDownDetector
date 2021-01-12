@@ -64,6 +64,16 @@ namespace Cyotek.DownDetector
       this.OnNotifyCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
     }
 
+    public UriInfo[] ToArray()
+    {
+      UriInfo[] results;
+
+      results = new UriInfo[this.Count];
+      this.Items.CopyTo(results, 0);
+
+      return results;
+    }
+
     #endregion Public Methods
 
     #region Protected Methods
