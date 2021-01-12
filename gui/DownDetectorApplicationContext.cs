@@ -462,6 +462,8 @@ namespace Cyotek.DownDetector.Client
 
         this.SetIcon();
 
+        this.Log(string.Format("Site '{0}' is {1}", e.StatusInfo.Uri, e.StatusInfo.Status));
+
         if (e.StatusInfo.Status == UriStatus.Offline && _client.Settings.ShowNotifications)
         {
           string title;
