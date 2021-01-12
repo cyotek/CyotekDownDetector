@@ -13,6 +13,10 @@ namespace Cyotek.DownDetector
   {
     #region Private Fields
 
+    private static readonly object _eventChecked = new object();
+
+    private static readonly object _eventChecking = new object();
+
     private static readonly object _eventUriChecked = new object();
 
     private static readonly object _eventUriChecking = new object();
@@ -70,6 +74,32 @@ namespace Cyotek.DownDetector
     #endregion Public Constructors
 
     #region Public Events
+
+    [Category("Action")]
+    public event EventHandler Checked
+    {
+      add
+      {
+        this.Events.AddHandler(_eventChecked, value);
+      }
+      remove
+      {
+        this.Events.RemoveHandler(_eventChecked, value);
+      }
+    }
+
+    [Category("Action")]
+    public event EventHandler Checking
+    {
+      add
+      {
+        this.Events.AddHandler(_eventChecking, value);
+      }
+      remove
+      {
+        this.Events.RemoveHandler(_eventChecking, value);
+      }
+    }
 
     [Category("Action")]
     public event EventHandler<UriEventArgs> UriChecked
@@ -196,6 +226,8 @@ namespace Cyotek.DownDetector
     {
       UriInfo[] info;
 
+      this.OnChecking(EventArgs.Empty);
+
       _timer.Stop();
 
       info = _settings.Addresses.ToArray();
@@ -206,6 +238,8 @@ namespace Cyotek.DownDetector
       }
 
       this.Reset();
+
+      this.OnChecked(EventArgs.Empty);
     }
 
     public void Dispose()
@@ -239,6 +273,32 @@ namespace Cyotek.DownDetector
 
         _disposedValue = true;
       }
+    }
+
+    /// <summary>
+    /// Raises the <see cref="Checked" /> event.
+    /// </summary>
+    /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
+    protected virtual void OnChecked(EventArgs e)
+    {
+      EventHandler handler;
+
+      handler = (EventHandler)this.Events[_eventChecked];
+
+      handler?.Invoke(this, e);
+    }
+
+    /// <summary>
+    /// Raises the <see cref="Checking" /> event.
+    /// </summary>
+    /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
+    protected virtual void OnChecking(EventArgs e)
+    {
+      EventHandler handler;
+
+      handler = (EventHandler)this.Events[_eventChecking];
+
+      handler?.Invoke(this, e);
     }
 
     /// <summary>
