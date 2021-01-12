@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
+   inkscape:export-ydpi="227.56"
+   inkscape:export-xdpi="227.56"
+   inkscape:export-filename="D:\Checkout\trunk\cyotek\source\Tools\DownDetector\res\state-icon.png"
+   sodipodi:docname="icon.svg"
+   version="1.1"
+   viewBox="0 0 128 128"
+   id="Layer_1"
+   data-name="Layer 1">
+  <metadata
+     id="metadata19">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     inkscape:current-layer="Layer_1"
+     inkscape:window-maximized="1"
+     inkscape:window-y="352"
+     inkscape:window-x="892"
+     inkscape:cy="64"
+     inkscape:cx="64"
+     inkscape:zoom="6.640625"
+     showgrid="false"
+     id="namedview17"
+     inkscape:window-height="1017"
+     inkscape:window-width="2560"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0"
+     guidetolerance="10"
+     gridtolerance="10"
+     objecttolerance="10"
+     borderopacity="1"
+     bordercolor="#666666"
+     pagecolor="#ffffff" />
+  <defs
+     id="defs4">
+    <style
+       id="style2">.cls-1{fill:#062b31;}.cls-2{fill:none;stroke:#062b31;stroke-miterlimit:10;stroke-width:6.5px;}</style>
+  </defs>
+  <title
+     id="title6" />
+  <path
+     style="fill:#ffffff"
+     id="path8"
+     d="M64,16A47.5,47.5,0,1,1,16.5,63.5,47.55,47.55,0,0,1,64,16m0-6.5a54,54,0,1,0,54,54,54,54,0,0,0-54-54Z"
+     class="cls-1" />
+  <path
+     style="fill:#ffffff"
+     id="path10"
+     d="M65.08,16c2.09,0,5.78,3.66,8.93,11.69,3.71,9.46,5.75,22.18,5.75,35.81s-2,26.35-5.75,35.81c-3.15,8-6.83,11.69-8.93,11.69s-5.78-3.66-8.93-11.69C52.45,89.85,50.4,77.13,50.4,63.5s2-26.35,5.75-35.81C59.31,19.65,63,16,65.08,16m0-6.5c-11.7,0-21.18,24.18-21.18,54s9.48,54,21.18,54,21.18-24.18,21.18-54-9.48-54-21.18-54Z"
+     class="cls-1" />
+  <line
+     style="stroke:#ffffff"
+     id="line12"
+     y2="80.37"
+     y1="80.37"
+     x2="112.5"
+     x1="17.66"
+     class="cls-2" />
+  <line
+     style="stroke:#ffffff"
+     id="line14"
+     y2="46.62"
+     y1="46.62"
+     x2="112.5"
+     x1="17.66"
+     class="cls-2" />
+</svg>

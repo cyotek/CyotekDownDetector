@@ -1,0 +1,67 @@
+//createSet(16, 8);
+//createSet(20, 8);
+//createSet(24, 16);
+//createSet(32, 16);
+//createSet(48, 24);
+
+makeIcon("icon-online", "");
+makeIcon("icon-unstable", "warning");
+makeIcon("icon-offline", "error");
+
+function makeIcon(iconName, overlayName)
+{
+  createIcon()
+
+  makeIconPart(64, overlayName, 32);
+  makeIconPart(48, overlayName, 24);
+  makeIconPart(40, overlayName, 16);
+  makeIconPart(32, overlayName, 16);
+  makeIconPart(24, overlayName, 16);
+  makeIconPart(20, overlayName, 8);
+  makeIconPart(16, overlayName, 8);
+  
+  saveIcon(iconName + ".ico");
+}
+
+function makeIconPart(size, overlayName, overlaySize)
+{
+  createBitmap(size, size);
+  
+  addLayer("state-icon.png");
+  
+  if(overlayName !== "")
+  {
+    addLayer(getOverlayName(overlayName, overlaySize), AnchorEdge.BottomRight);
+  }
+  
+  addBitmapToIcon();
+}
+
+function createSet(size, overlaySize)
+{
+  createBitmap(size, size);
+  addLayer("state-icon.png");
+  saveBitmap("state-icon-" + size + "-online.png");
+
+  createBitmap(size, size);
+  addLayer("state-icon.png");
+  addLayer(getOverlayName("warning", overlaySize), AnchorEdge.BottomRight);
+  saveBitmap("state-icon-" + size + "-unstable.png");
+
+  createBitmap(size, size);
+  addLayer("state-icon.png");
+  addLayer(getOverlayName("error", overlaySize), AnchorEdge.BottomRight);
+  saveBitmap("state-icon-" + size + "-offline.png");
+}
+
+function getOverlayName(prefix, overlaySize)
+{
+  if(overlaySize == 16)
+  {
+    return "D:\\Checkout\\trunk\\resources\\images\\gui\\dialog\\dialog-" + prefix + ".png";
+  }
+  else
+  {
+    return "D:\\Checkout\\trunk\\resources\\images\\gui\\dialog\\dialog-" + prefix + "-" + overlaySize + ".png";
+  }
+}

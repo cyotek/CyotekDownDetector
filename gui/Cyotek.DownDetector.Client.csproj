@@ -128,33 +128,33 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\res\certificate-warning.png">
+    <None Include="..\res\certificate-warning.png">
       <Link>Resources\certificate-warning.png</Link>
-    </Content>
-    <Content Include="..\res\icon-offline.ico">
+    </None>
+    <None Include="..\res\icon-offline.ico">
       <Link>Resources\icon-offline.ico</Link>
-    </Content>
-    <Content Include="..\res\icon-online.ico">
+    </None>
+    <None Include="..\res\icon-online.ico">
       <Link>Resources\icon-online.ico</Link>
-    </Content>
-    <Content Include="..\res\icon-unstable.ico">
+    </None>
+    <None Include="..\res\icon-unstable.ico">
       <Link>Resources\icon-unstable.ico</Link>
-    </Content>
-    <Content Include="..\res\icon.ico">
+    </None>
+    <None Include="..\res\icon.ico">
       <Link>icon.ico</Link>
-    </Content>
-    <Content Include="..\res\status-offline.png">
+    </None>
+    <None Include="..\res\status-offline.png">
       <Link>Resources\status-offline.png</Link>
-    </Content>
-    <Content Include="..\res\status-online.png">
+    </None>
+    <None Include="..\res\status-online.png">
       <Link>Resources\status-online.png</Link>
-    </Content>
-    <Content Include="..\res\status-unknown.png">
+    </None>
+    <None Include="..\res\status-unknown.png">
       <Link>Resources\status-unknown.png</Link>
-    </Content>
-    <Content Include="..\res\status-unstable.png">
+    </None>
+    <None Include="..\res\status-unstable.png">
       <Link>Resources\status-unstable.png</Link>
-    </Content>
+    </None>
     <None Include="about.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
