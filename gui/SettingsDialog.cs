@@ -83,6 +83,8 @@ namespace Cyotek.DownDetector.Client
       _settings.UnstableInterval = unstableIntervalTimeSpanPicker.Value;
       _settings.MaximumDisplayItems = (int)displayCountNumericUpDown.Value;
       _settings.ShowNotifications = showNotificationsCheckBox.Checked;
+      _settings.ShowDisplayItems = showMenuItemsCheckBox.Checked;
+      _settings.ShowOfflineItemsOnly = offlineOnlyCheckBox.Checked;
 
       this.UpdateStartupSetting();
 
@@ -104,6 +106,8 @@ namespace Cyotek.DownDetector.Client
         displayCountNumericUpDown.Value = _settings.MaximumDisplayItems;
         showNotificationsCheckBox.Checked = _settings.ShowNotifications;
         startWithWindowsCheckBox.Checked = StartupManager.IsRegisteredForStartup();
+        showMenuItemsCheckBox.Checked = _settings.ShowDisplayItems;
+        offlineOnlyCheckBox.Checked = _settings.ShowOfflineItemsOnly;
       }
     }
 

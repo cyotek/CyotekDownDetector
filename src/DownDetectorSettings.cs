@@ -15,7 +15,11 @@ namespace Cyotek.DownDetector
 
     private int _maximumDisplayItems;
 
+    private bool _showDisplayItems;
+
     private bool _showNotifications;
+
+    private bool _showOfflineItemsOnly;
 
     private UriStatusInfoCollection _statuses;
 
@@ -37,6 +41,7 @@ namespace Cyotek.DownDetector
       _unstableInterval = TimeSpan.FromSeconds(90);
       _maximumDisplayItems = 25;
       _showNotifications = true;
+      _showDisplayItems = true;
     }
 
     #endregion Public Constructors
@@ -85,10 +90,22 @@ namespace Cyotek.DownDetector
       set { this.UpdateAssignment(ref _maximumDisplayItems, value, nameof(this.MaximumDisplayItems)); }
     }
 
+    public bool ShowDisplayItems
+    {
+      get { return _showDisplayItems; }
+      set { this.UpdateAssignment(ref _showDisplayItems, value, nameof(this.ShowDisplayItems)); }
+    }
+
     public bool ShowNotifications
     {
       get { return _showNotifications; }
       set { this.UpdateAssignment(ref _showNotifications, value, nameof(this.ShowNotifications)); }
+    }
+
+    public bool ShowOfflineItemsOnly
+    {
+      get { return _showOfflineItemsOnly; }
+      set { this.UpdateAssignment(ref _showOfflineItemsOnly, value, nameof(this.ShowOfflineItemsOnly)); }
     }
 
     public UriStatusInfoCollection Statuses

@@ -61,7 +61,6 @@ namespace Cyotek.DownDetector.Client
 
     protected override void OnInitializeContextMenu()
     {
-      this.ContextMenu.Items.Add("-");
       this.ContextMenu.Items.Add("&Settings...", null, this.SettingsContextMenuClickHandler).Font = new Font(this.ContextMenu.Font, FontStyle.Bold);
       this.ContextMenu.Items.Add("-");
       this.ContextMenu.Items.Add("&Check Now", null, this.CheckNowContextMenuClickHandler);
@@ -189,43 +188,64 @@ namespace Cyotek.DownDetector.Client
       if (!_loading)
       {
         ToolStripItemCollection items;
-        UriInfoCollection addresses;
-        UriStatusInfoCollection statuses;
 
         _loading = true;
 
         items = this.ContextMenu.Items;
-        addresses = _client.Settings.Addresses;
-        statuses = _client.Settings.Statuses;
 
         this.RemoveExistingStatusItem(items);
 
-        for (int i = 0; i < addresses.Count; i++)
+        if (_client.Settings.ShowDisplayItems)
         {
-          Uri uri;
-          UriStatus status;
-          ToolStripMenuItem item;
+          UriInfoCollection addresses;
+          UriStatusInfoCollection statuses;
+          int index;
 
-          uri = addresses[i].Uri;
+          addresses = _client.Settings.Addresses;
+          statuses = _client.Settings.Statuses;
+          index = 0;
 
-          status = statuses.TryGetValue(uri, out UriStatusInfo statusInfo)
-            ? statusInfo.Status
-            : UriStatus.Unknown;
-
-          item = new ToolStripMenuItem
+          for (int i = 0; i < addresses.Count; i++)
           {
-            Text = uri.AbsoluteUri,
-            Tag = uri,
-            Image = this.GetStatusImage(status)
-          };
+            Uri uri;
+            UriStatus status;
 
-          item.Click += this.UrlMenuClickHandler;
+            uri = addresses[i].Uri;
 
-          items.Insert(i, item);
+            status = statuses.TryGetValue(uri, out UriStatusInfo statusInfo)
+              ? statusInfo.Status
+              : UriStatus.Unknown;
 
-          if (i > _client.Settings.MaximumDisplayItems)
+            if (status != UriStatus.Online || !_client.Settings.ShowOfflineItemsOnly)
+            {
+              ToolStripMenuItem item;
+
+              item = new ToolStripMenuItem
+              {
+                Text = uri.AbsoluteUri,
+                Tag = uri,
+                Image = this.GetStatusImage(status)
+              };
+
+              item.Click += this.UrlMenuClickHandler;
+
+              items.Insert(index, item);
+
+              index++;
+
+              if (index > _client.Settings.MaximumDisplayItems)
+              {
+                break;
+              }
+            }
+          }
+
+          if (index > 0)
           {
-            break;
+            items.Insert(index, new ToolStripSeparator
+            {
+              Tag = "sitebreak"
+            });
           }
         }
 

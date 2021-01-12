@@ -34,9 +34,10 @@ namespace Cyotek.DownDetector.Client
       System.Windows.Forms.Label label1;
       System.Windows.Forms.Label unstableIntervalLabel;
       System.Windows.Forms.Label intervalHelpLabel;
-      System.Windows.Forms.GroupBox groupBox1;
+      System.Windows.Forms.GroupBox menuGroupBox;
       System.Windows.Forms.Label displayCountLabel;
-      System.Windows.Forms.GroupBox groupBox2;
+      System.Windows.Forms.GroupBox startupGroupBox;
+      System.Windows.Forms.GroupBox notificationsGroupBox;
       this.unstableIntervalTimeSpanPicker = new System.Windows.Forms.TimeSpanPicker();
       this.intervalTimeSpanPicker = new System.Windows.Forms.TimeSpanPicker();
       this.showNotificationsCheckBox = new System.Windows.Forms.CheckBox();
@@ -50,28 +51,32 @@ namespace Cyotek.DownDetector.Client
       this.aboutPanel = new Cyotek.Demo.Windows.Forms.AboutPanel();
       this.okButton = new System.Windows.Forms.Button();
       this.cancelButton = new System.Windows.Forms.Button();
+      this.showMenuItemsCheckBox = new System.Windows.Forms.CheckBox();
+      this.offlineOnlyCheckBox = new System.Windows.Forms.CheckBox();
       intervalLabel = new System.Windows.Forms.Label();
       checkSettingsGroupBox = new System.Windows.Forms.GroupBox();
       label1 = new System.Windows.Forms.Label();
       unstableIntervalLabel = new System.Windows.Forms.Label();
       intervalHelpLabel = new System.Windows.Forms.Label();
-      groupBox1 = new System.Windows.Forms.GroupBox();
+      menuGroupBox = new System.Windows.Forms.GroupBox();
       displayCountLabel = new System.Windows.Forms.Label();
-      groupBox2 = new System.Windows.Forms.GroupBox();
+      startupGroupBox = new System.Windows.Forms.GroupBox();
+      notificationsGroupBox = new System.Windows.Forms.GroupBox();
       checkSettingsGroupBox.SuspendLayout();
-      groupBox1.SuspendLayout();
+      menuGroupBox.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.displayCountNumericUpDown)).BeginInit();
-      groupBox2.SuspendLayout();
+      startupGroupBox.SuspendLayout();
       this.tabList.SuspendLayout();
       this.addressTabListPage.SuspendLayout();
       this.settingsTabListPage.SuspendLayout();
       this.aboutTabListPage.SuspendLayout();
+      notificationsGroupBox.SuspendLayout();
       this.SuspendLayout();
       // 
       // intervalLabel
       // 
       intervalLabel.AutoSize = true;
-      intervalLabel.Location = new System.Drawing.Point(6, 22);
+      intervalLabel.Location = new System.Drawing.Point(3, 22);
       intervalLabel.Name = "intervalLabel";
       intervalLabel.Size = new System.Drawing.Size(78, 13);
       intervalLabel.TabIndex = 0;
@@ -98,7 +103,7 @@ namespace Cyotek.DownDetector.Client
       // 
       label1.AutoSize = true;
       label1.ForeColor = System.Drawing.SystemColors.GrayText;
-      label1.Location = new System.Drawing.Point(98, 89);
+      label1.Location = new System.Drawing.Point(95, 89);
       label1.Name = "label1";
       label1.Size = new System.Drawing.Size(417, 13);
       label1.TabIndex = 5;
@@ -107,7 +112,7 @@ namespace Cyotek.DownDetector.Client
       // 
       // unstableIntervalTimeSpanPicker
       // 
-      this.unstableIntervalTimeSpanPicker.Location = new System.Drawing.Point(101, 65);
+      this.unstableIntervalTimeSpanPicker.Location = new System.Drawing.Point(98, 65);
       this.unstableIntervalTimeSpanPicker.Margin = new System.Windows.Forms.Padding(3, 9, 3, 3);
       this.unstableIntervalTimeSpanPicker.Name = "unstableIntervalTimeSpanPicker";
       this.unstableIntervalTimeSpanPicker.Size = new System.Drawing.Size(235, 21);
@@ -116,7 +121,7 @@ namespace Cyotek.DownDetector.Client
       // unstableIntervalLabel
       // 
       unstableIntervalLabel.AutoSize = true;
-      unstableIntervalLabel.Location = new System.Drawing.Point(6, 68);
+      unstableIntervalLabel.Location = new System.Drawing.Point(3, 68);
       unstableIntervalLabel.Name = "unstableIntervalLabel";
       unstableIntervalLabel.Size = new System.Drawing.Size(89, 13);
       unstableIntervalLabel.TabIndex = 3;
@@ -126,7 +131,7 @@ namespace Cyotek.DownDetector.Client
       // 
       intervalHelpLabel.AutoSize = true;
       intervalHelpLabel.ForeColor = System.Drawing.SystemColors.GrayText;
-      intervalHelpLabel.Location = new System.Drawing.Point(98, 43);
+      intervalHelpLabel.Location = new System.Drawing.Point(95, 43);
       intervalHelpLabel.Name = "intervalHelpLabel";
       intervalHelpLabel.Size = new System.Drawing.Size(293, 13);
       intervalHelpLabel.TabIndex = 2;
@@ -134,62 +139,63 @@ namespace Cyotek.DownDetector.Client
       // 
       // intervalTimeSpanPicker
       // 
-      this.intervalTimeSpanPicker.Location = new System.Drawing.Point(101, 19);
+      this.intervalTimeSpanPicker.Location = new System.Drawing.Point(98, 19);
       this.intervalTimeSpanPicker.Name = "intervalTimeSpanPicker";
       this.intervalTimeSpanPicker.Size = new System.Drawing.Size(235, 21);
       this.intervalTimeSpanPicker.TabIndex = 1;
       // 
-      // groupBox1
+      // menuGroupBox
       // 
-      groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+      menuGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-      groupBox1.Controls.Add(this.showNotificationsCheckBox);
-      groupBox1.Controls.Add(this.displayCountNumericUpDown);
-      groupBox1.Controls.Add(displayCountLabel);
-      groupBox1.Location = new System.Drawing.Point(0, 125);
-      groupBox1.Name = "groupBox1";
-      groupBox1.Size = new System.Drawing.Size(602, 76);
-      groupBox1.TabIndex = 6;
-      groupBox1.TabStop = false;
-      groupBox1.Text = "Display";
+      menuGroupBox.Controls.Add(this.offlineOnlyCheckBox);
+      menuGroupBox.Controls.Add(this.showMenuItemsCheckBox);
+      menuGroupBox.Controls.Add(this.displayCountNumericUpDown);
+      menuGroupBox.Controls.Add(displayCountLabel);
+      menuGroupBox.Location = new System.Drawing.Point(0, 125);
+      menuGroupBox.Name = "menuGroupBox";
+      menuGroupBox.Size = new System.Drawing.Size(602, 98);
+      menuGroupBox.TabIndex = 1;
+      menuGroupBox.TabStop = false;
+      menuGroupBox.Text = "Display";
       // 
       // showNotificationsCheckBox
       // 
       this.showNotificationsCheckBox.AutoSize = true;
-      this.showNotificationsCheckBox.Location = new System.Drawing.Point(8, 45);
+      this.showNotificationsCheckBox.Location = new System.Drawing.Point(6, 19);
       this.showNotificationsCheckBox.Name = "showNotificationsCheckBox";
       this.showNotificationsCheckBox.Size = new System.Drawing.Size(221, 17);
-      this.showNotificationsCheckBox.TabIndex = 7;
+      this.showNotificationsCheckBox.TabIndex = 0;
       this.showNotificationsCheckBox.Text = "Show &notification when a site goes offline";
       this.showNotificationsCheckBox.UseVisualStyleBackColor = true;
       // 
       // displayCountNumericUpDown
       // 
-      this.displayCountNumericUpDown.Location = new System.Drawing.Point(189, 19);
+      this.displayCountNumericUpDown.Location = new System.Drawing.Point(190, 65);
       this.displayCountNumericUpDown.Name = "displayCountNumericUpDown";
       this.displayCountNumericUpDown.Size = new System.Drawing.Size(59, 20);
-      this.displayCountNumericUpDown.TabIndex = 1;
+      this.displayCountNumericUpDown.TabIndex = 3;
       // 
       // displayCountLabel
       // 
       displayCountLabel.AutoSize = true;
-      displayCountLabel.Location = new System.Drawing.Point(6, 21);
+      displayCountLabel.Location = new System.Drawing.Point(3, 67);
       displayCountLabel.Name = "displayCountLabel";
-      displayCountLabel.Size = new System.Drawing.Size(177, 13);
-      displayCountLabel.TabIndex = 0;
-      displayCountLabel.Text = "Number of items to &display on menu:";
+      displayCountLabel.Size = new System.Drawing.Size(172, 13);
+      displayCountLabel.TabIndex = 2;
+      displayCountLabel.Text = "Maximum items to &display on menu:";
       // 
-      // groupBox2
+      // startupGroupBox
       // 
-      groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+      startupGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-      groupBox2.Controls.Add(this.startWithWindowsCheckBox);
-      groupBox2.Location = new System.Drawing.Point(0, 207);
-      groupBox2.Name = "groupBox2";
-      groupBox2.Size = new System.Drawing.Size(602, 76);
-      groupBox2.TabIndex = 8;
-      groupBox2.TabStop = false;
-      groupBox2.Text = "Startup";
+      startupGroupBox.Controls.Add(this.startWithWindowsCheckBox);
+      startupGroupBox.Location = new System.Drawing.Point(1, 288);
+      startupGroupBox.Name = "startupGroupBox";
+      startupGroupBox.Size = new System.Drawing.Size(602, 53);
+      startupGroupBox.TabIndex = 3;
+      startupGroupBox.TabStop = false;
+      startupGroupBox.Text = "Startup";
       // 
       // startWithWindowsCheckBox
       // 
@@ -197,7 +203,7 @@ namespace Cyotek.DownDetector.Client
       this.startWithWindowsCheckBox.Location = new System.Drawing.Point(6, 19);
       this.startWithWindowsCheckBox.Name = "startWithWindowsCheckBox";
       this.startWithWindowsCheckBox.Size = new System.Drawing.Size(117, 17);
-      this.startWithWindowsCheckBox.TabIndex = 7;
+      this.startWithWindowsCheckBox.TabIndex = 0;
       this.startWithWindowsCheckBox.Text = "Start &with Windows";
       this.startWithWindowsCheckBox.UseVisualStyleBackColor = true;
       // 
@@ -232,8 +238,9 @@ namespace Cyotek.DownDetector.Client
       // 
       // settingsTabListPage
       // 
-      this.settingsTabListPage.Controls.Add(groupBox2);
-      this.settingsTabListPage.Controls.Add(groupBox1);
+      this.settingsTabListPage.Controls.Add(notificationsGroupBox);
+      this.settingsTabListPage.Controls.Add(startupGroupBox);
+      this.settingsTabListPage.Controls.Add(menuGroupBox);
       this.settingsTabListPage.Controls.Add(checkSettingsGroupBox);
       this.settingsTabListPage.Name = "settingsTabListPage";
       this.settingsTabListPage.Size = new System.Drawing.Size(602, 506);
@@ -277,6 +284,39 @@ namespace Cyotek.DownDetector.Client
       this.cancelButton.UseVisualStyleBackColor = true;
       this.cancelButton.Click += new System.EventHandler(this.CancelButton_Click);
       // 
+      // notificationsGroupBox
+      // 
+      notificationsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      notificationsGroupBox.Controls.Add(this.showNotificationsCheckBox);
+      notificationsGroupBox.Location = new System.Drawing.Point(0, 229);
+      notificationsGroupBox.Name = "notificationsGroupBox";
+      notificationsGroupBox.Size = new System.Drawing.Size(602, 53);
+      notificationsGroupBox.TabIndex = 2;
+      notificationsGroupBox.TabStop = false;
+      notificationsGroupBox.Text = "Notifications";
+      // 
+      // showMenuItemsCheckBox
+      // 
+      this.showMenuItemsCheckBox.AutoSize = true;
+      this.showMenuItemsCheckBox.Location = new System.Drawing.Point(6, 19);
+      this.showMenuItemsCheckBox.Name = "showMenuItemsCheckBox";
+      this.showMenuItemsCheckBox.Size = new System.Drawing.Size(159, 17);
+      this.showMenuItemsCheckBox.TabIndex = 0;
+      this.showMenuItemsCheckBox.Text = "Show &sites on context menu";
+      this.showMenuItemsCheckBox.UseVisualStyleBackColor = true;
+      // 
+      // offlineOnlyCheckBox
+      // 
+      this.offlineOnlyCheckBox.AutoSize = true;
+      this.offlineOnlyCheckBox.Location = new System.Drawing.Point(23, 42);
+      this.offlineOnlyCheckBox.Margin = new System.Windows.Forms.Padding(20, 3, 3, 3);
+      this.offlineOnlyCheckBox.Name = "offlineOnlyCheckBox";
+      this.offlineOnlyCheckBox.Size = new System.Drawing.Size(169, 17);
+      this.offlineOnlyCheckBox.TabIndex = 1;
+      this.offlineOnlyCheckBox.Text = "Only show sites that are &offline";
+      this.offlineOnlyCheckBox.UseVisualStyleBackColor = true;
+      // 
       // SettingsDialog
       // 
       this.AcceptButton = this.okButton;
@@ -297,15 +337,17 @@ namespace Cyotek.DownDetector.Client
       this.Text = "Cyotek Down Detector";
       checkSettingsGroupBox.ResumeLayout(false);
       checkSettingsGroupBox.PerformLayout();
-      groupBox1.ResumeLayout(false);
-      groupBox1.PerformLayout();
+      menuGroupBox.ResumeLayout(false);
+      menuGroupBox.PerformLayout();
       ((System.ComponentModel.ISupportInitialize)(this.displayCountNumericUpDown)).EndInit();
-      groupBox2.ResumeLayout(false);
-      groupBox2.PerformLayout();
+      startupGroupBox.ResumeLayout(false);
+      startupGroupBox.PerformLayout();
       this.tabList.ResumeLayout(false);
       this.addressTabListPage.ResumeLayout(false);
       this.settingsTabListPage.ResumeLayout(false);
       this.aboutTabListPage.ResumeLayout(false);
+      notificationsGroupBox.ResumeLayout(false);
+      notificationsGroupBox.PerformLayout();
       this.ResumeLayout(false);
 
     }
@@ -325,5 +367,7 @@ namespace Cyotek.DownDetector.Client
     private UriInfoCollectionEditor uriInfoCollectionEditor;
     private Windows.Forms.TabListPage aboutTabListPage;
     private Demo.Windows.Forms.AboutPanel aboutPanel;
+    private System.Windows.Forms.CheckBox offlineOnlyCheckBox;
+    private System.Windows.Forms.CheckBox showMenuItemsCheckBox;
   }
 }
