@@ -1,7 +1,6 @@
 ﻿using Cyotek.Demo.Windows.Forms;
 using Cyotek.DownDetector.Client.Properties;
 using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Text;
@@ -85,6 +84,7 @@ namespace Cyotek.DownDetector.Client
     protected override void OnInitializeContextMenu()
     {
       this.ContextMenu.Items.Add("&Settings...", null, this.SettingsContextMenuClickHandler).Font = new Font(this.ContextMenu.Font, FontStyle.Bold);
+      this.ContextMenu.Items.Add("Open &Log", null, this.OpenLogContextMenuClickHandler);
       this.ContextMenu.Items.Add("-");
       this.ContextMenu.Items.Add("&Check Now", null, this.CheckNowContextMenuClickHandler);
       this.ContextMenu.Items.Add("-");
@@ -298,6 +298,11 @@ namespace Cyotek.DownDetector.Client
       _logWriter.Write(DateTime.UtcNow);
       _logWriter.Write('\t');
       _logWriter.WriteLine(text);
+    }
+
+    private void OpenLogContextMenuClickHandler(object sender, EventArgs e)
+    {
+      AboutPanel.OpenUrl(_logFileName);
     }
 
     private void RemoveExistingStatusItem(ToolStripItemCollection items)
