@@ -39,6 +39,7 @@ namespace Cyotek.DownDetector.Client
       _client.UriException += this.UriExceptionHandler;
       _client.UriSslPolicyError += this.UriSslPolicyErrorHandler;
       _client.Checking += this.CheckingHandler;
+      _client.Checked += this.CheckedHandler;
 
       this.InitializeLog();
       this.LoadSettings();
@@ -74,6 +75,7 @@ namespace Cyotek.DownDetector.Client
         _client.UriException -= this.UriExceptionHandler;
         _client.UriSslPolicyError -= this.UriSslPolicyErrorHandler;
         _client.Checking -= this.CheckingHandler;
+        _client.Checked -= this.CheckedHandler;
         _client.Dispose();
         _client = null;
       }
@@ -108,6 +110,11 @@ namespace Cyotek.DownDetector.Client
     #endregion Protected Methods
 
     #region Private Methods
+
+    private async void CheckedHandler(object sender, EventArgs e)
+    {
+      await _logWriter.FlushAsync().ConfigureAwait(false);
+    }
 
     private void CheckingHandler(object sender, EventArgs e)
     {
