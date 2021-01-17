@@ -242,6 +242,43 @@ namespace Cyotek.DownDetector
       this.OnChecked(EventArgs.Empty);
     }
 
+    public async Task CheckUri(UriInfo uriInfo)
+    {
+      Uri uri;
+      UriEventArgs args;
+      UriStatus newStatus;
+      Exception error;
+
+      uri = uriInfo.Uri;
+
+      if (!_settings.Statuses.TryGetValue(uri, out UriStatusInfo status))
+      {
+        status = new UriStatusInfo
+        {
+          LastChange = DateTimeOffset.UtcNow,
+          Status = UriStatus.Unknown,
+          Uri = uri
+        };
+
+        _settings.Statuses.Add(status);
+      }
+
+      args = new UriEventArgs(uri);
+
+      this.OnUriChecking(args);
+
+      (newStatus, error) = await this.GetUriStatus(uriInfo).ConfigureAwait(false);
+
+      if (error != null)
+      {
+        this.OnUriException(new UriExceptionEventArgs(uri, error));
+      }
+
+      this.UpdateStatus(status, newStatus);
+
+      this.OnUriChecked(args);
+    }
+
     public void Dispose()
     {
       // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
@@ -369,43 +406,6 @@ namespace Cyotek.DownDetector
     #endregion Protected Methods
 
     #region Private Methods
-
-    private async Task CheckUri(UriInfo uriInfo)
-    {
-      Uri uri;
-      UriEventArgs args;
-      UriStatus newStatus;
-      Exception error;
-
-      uri = uriInfo.Uri;
-
-      if (!_settings.Statuses.TryGetValue(uri, out UriStatusInfo status))
-      {
-        status = new UriStatusInfo
-        {
-          LastChange = DateTimeOffset.UtcNow,
-          Status = UriStatus.Unknown,
-          Uri = uri
-        };
-
-        _settings.Statuses.Add(status);
-      }
-
-      args = new UriEventArgs(uri);
-
-      this.OnUriChecking(args);
-
-      (newStatus, error) = await this.GetUriStatus(uriInfo).ConfigureAwait(false);
-
-      if (error != null)
-      {
-        this.OnUriException(new UriExceptionEventArgs(uri, error));
-      }
-
-      this.UpdateStatus(status, newStatus);
-
-      this.OnUriChecked(args);
-    }
 
     private async Task<Tuple<UriStatus, Exception>> GetUriStatus(UriInfo uriInfo)
     {
