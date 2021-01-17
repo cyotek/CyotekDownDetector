@@ -369,6 +369,11 @@ namespace Cyotek.DownDetector.Client
 
     private void SetToolTip(string toolTipText)
     {
+      if (toolTipText.Length >= 64)
+      {
+        toolTipText = toolTipText.Substring(0, 60) + "...";
+      }
+
       this.TrayIcon.Text = toolTipText;
     }
 
