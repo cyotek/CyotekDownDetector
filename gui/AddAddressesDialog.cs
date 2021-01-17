@@ -54,13 +54,16 @@ namespace Cyotek.DownDetector.Client
 
       foreach (string line in addressesTextBox.Lines)
       {
-        string address;
-
-        address = this.MakeAddress(line);
-
-        if (!string.IsNullOrEmpty(address) && !addresses.Contains(address))
+        if (!string.IsNullOrWhiteSpace(line))
         {
-          addresses.Add(address);
+          string address;
+
+          address = this.MakeAddress(line);
+
+          if (!addresses.Contains(address))
+          {
+            addresses.Add(address);
+          }
         }
       }
 
@@ -111,14 +114,17 @@ namespace Cyotek.DownDetector.Client
 
       foreach (string line in addressesTextBox.Lines)
       {
-        string address;
-
-        address = this.MakeAddress(line);
-
-        if (!string.IsNullOrEmpty(address) && !Uri.TryCreate(address, UriKind.Absolute, out Uri _))
+        if (!string.IsNullOrWhiteSpace(line))
         {
-          sb.AppendLine(line);
-          result = false;
+          string address;
+
+          address = this.MakeAddress(line);
+
+          if (!Uri.TryCreate(address, UriKind.Absolute, out Uri _))
+          {
+            sb.AppendLine(line);
+            result = false;
+          }
         }
       }
 
