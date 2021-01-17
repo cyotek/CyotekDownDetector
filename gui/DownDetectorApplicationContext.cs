@@ -299,7 +299,7 @@ namespace Cyotek.DownDetector.Client
     private void Log(string text)
     {
 #if DEBUG
-      Debug.WriteLine(text);
+      System.Diagnostics.Debug.WriteLine(text);
 #endif
 
       _logWriter.Write(DateTime.UtcNow);
@@ -436,7 +436,7 @@ namespace Cyotek.DownDetector.Client
         text = string.Format("Checking: {0}", e.Uri);
 
 #if DEBUG
-        Debug.WriteLine(text);
+        System.Diagnostics.Debug.WriteLine(text);
 #endif
 
         this.SetToolTip(text);
