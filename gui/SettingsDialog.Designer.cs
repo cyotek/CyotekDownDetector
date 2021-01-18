@@ -40,19 +40,19 @@ namespace Cyotek.DownDetector.Client
       System.Windows.Forms.GroupBox notificationsGroupBox;
       this.unstableIntervalTimeSpanPicker = new System.Windows.Forms.TimeSpanPicker();
       this.intervalTimeSpanPicker = new System.Windows.Forms.TimeSpanPicker();
-      this.showNotificationsCheckBox = new System.Windows.Forms.CheckBox();
+      this.offlineOnlyCheckBox = new System.Windows.Forms.CheckBox();
+      this.showMenuItemsCheckBox = new System.Windows.Forms.CheckBox();
       this.displayCountNumericUpDown = new System.Windows.Forms.NumericUpDown();
       this.startWithWindowsCheckBox = new System.Windows.Forms.CheckBox();
+      this.showNotificationsCheckBox = new System.Windows.Forms.CheckBox();
       this.tabList = new Cyotek.Windows.Forms.TabList();
       this.addressTabListPage = new Cyotek.Windows.Forms.TabListPage();
       this.uriInfoCollectionEditor = new Cyotek.DownDetector.Client.UriInfoCollectionEditor();
       this.settingsTabListPage = new Cyotek.Windows.Forms.TabListPage();
       this.aboutTabListPage = new Cyotek.Windows.Forms.TabListPage();
-      this.aboutPanel = new Cyotek.Demo.Windows.Forms.AboutPanel();
       this.okButton = new System.Windows.Forms.Button();
       this.cancelButton = new System.Windows.Forms.Button();
-      this.showMenuItemsCheckBox = new System.Windows.Forms.CheckBox();
-      this.offlineOnlyCheckBox = new System.Windows.Forms.CheckBox();
+      this.logTabListPage = new Cyotek.Windows.Forms.TabListPage();
       intervalLabel = new System.Windows.Forms.Label();
       checkSettingsGroupBox = new System.Windows.Forms.GroupBox();
       label1 = new System.Windows.Forms.Label();
@@ -66,11 +66,10 @@ namespace Cyotek.DownDetector.Client
       menuGroupBox.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.displayCountNumericUpDown)).BeginInit();
       startupGroupBox.SuspendLayout();
+      notificationsGroupBox.SuspendLayout();
       this.tabList.SuspendLayout();
       this.addressTabListPage.SuspendLayout();
       this.settingsTabListPage.SuspendLayout();
-      this.aboutTabListPage.SuspendLayout();
-      notificationsGroupBox.SuspendLayout();
       this.SuspendLayout();
       // 
       // intervalLabel
@@ -159,15 +158,26 @@ namespace Cyotek.DownDetector.Client
       menuGroupBox.TabStop = false;
       menuGroupBox.Text = "Display";
       // 
-      // showNotificationsCheckBox
+      // offlineOnlyCheckBox
       // 
-      this.showNotificationsCheckBox.AutoSize = true;
-      this.showNotificationsCheckBox.Location = new System.Drawing.Point(6, 19);
-      this.showNotificationsCheckBox.Name = "showNotificationsCheckBox";
-      this.showNotificationsCheckBox.Size = new System.Drawing.Size(221, 17);
-      this.showNotificationsCheckBox.TabIndex = 0;
-      this.showNotificationsCheckBox.Text = "Show &notification when a site goes offline";
-      this.showNotificationsCheckBox.UseVisualStyleBackColor = true;
+      this.offlineOnlyCheckBox.AutoSize = true;
+      this.offlineOnlyCheckBox.Location = new System.Drawing.Point(23, 42);
+      this.offlineOnlyCheckBox.Margin = new System.Windows.Forms.Padding(20, 3, 3, 3);
+      this.offlineOnlyCheckBox.Name = "offlineOnlyCheckBox";
+      this.offlineOnlyCheckBox.Size = new System.Drawing.Size(169, 17);
+      this.offlineOnlyCheckBox.TabIndex = 1;
+      this.offlineOnlyCheckBox.Text = "Only show sites that are &offline";
+      this.offlineOnlyCheckBox.UseVisualStyleBackColor = true;
+      // 
+      // showMenuItemsCheckBox
+      // 
+      this.showMenuItemsCheckBox.AutoSize = true;
+      this.showMenuItemsCheckBox.Location = new System.Drawing.Point(6, 19);
+      this.showMenuItemsCheckBox.Name = "showMenuItemsCheckBox";
+      this.showMenuItemsCheckBox.Size = new System.Drawing.Size(159, 17);
+      this.showMenuItemsCheckBox.TabIndex = 0;
+      this.showMenuItemsCheckBox.Text = "Show &sites on context menu";
+      this.showMenuItemsCheckBox.UseVisualStyleBackColor = true;
       // 
       // displayCountNumericUpDown
       // 
@@ -207,6 +217,28 @@ namespace Cyotek.DownDetector.Client
       this.startWithWindowsCheckBox.Text = "Start &with Windows";
       this.startWithWindowsCheckBox.UseVisualStyleBackColor = true;
       // 
+      // notificationsGroupBox
+      // 
+      notificationsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      notificationsGroupBox.Controls.Add(this.showNotificationsCheckBox);
+      notificationsGroupBox.Location = new System.Drawing.Point(0, 229);
+      notificationsGroupBox.Name = "notificationsGroupBox";
+      notificationsGroupBox.Size = new System.Drawing.Size(602, 53);
+      notificationsGroupBox.TabIndex = 2;
+      notificationsGroupBox.TabStop = false;
+      notificationsGroupBox.Text = "Notifications";
+      // 
+      // showNotificationsCheckBox
+      // 
+      this.showNotificationsCheckBox.AutoSize = true;
+      this.showNotificationsCheckBox.Location = new System.Drawing.Point(6, 19);
+      this.showNotificationsCheckBox.Name = "showNotificationsCheckBox";
+      this.showNotificationsCheckBox.Size = new System.Drawing.Size(221, 17);
+      this.showNotificationsCheckBox.TabIndex = 0;
+      this.showNotificationsCheckBox.Text = "Show &notification when a site goes offline";
+      this.showNotificationsCheckBox.UseVisualStyleBackColor = true;
+      // 
       // tabList
       // 
       this.tabList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -214,12 +246,14 @@ namespace Cyotek.DownDetector.Client
             | System.Windows.Forms.AnchorStyles.Right)));
       this.tabList.Controls.Add(this.addressTabListPage);
       this.tabList.Controls.Add(this.settingsTabListPage);
+      this.tabList.Controls.Add(this.logTabListPage);
       this.tabList.Controls.Add(this.aboutTabListPage);
       this.tabList.Location = new System.Drawing.Point(12, 12);
       this.tabList.Name = "tabList";
       this.tabList.Padding = new System.Windows.Forms.Padding(6, 0, 0, 0);
       this.tabList.Size = new System.Drawing.Size(760, 508);
       this.tabList.TabIndex = 0;
+      this.tabList.Selected += new System.EventHandler<Cyotek.Windows.Forms.TabListEventArgs>(this.TabList_Selected);
       // 
       // addressTabListPage
       // 
@@ -248,18 +282,9 @@ namespace Cyotek.DownDetector.Client
       // 
       // aboutTabListPage
       // 
-      this.aboutTabListPage.Controls.Add(this.aboutPanel);
       this.aboutTabListPage.Name = "aboutTabListPage";
       this.aboutTabListPage.Size = new System.Drawing.Size(602, 506);
       this.aboutTabListPage.Text = "About";
-      // 
-      // aboutPanel
-      // 
-      this.aboutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.aboutPanel.Location = new System.Drawing.Point(0, 0);
-      this.aboutPanel.Name = "aboutPanel";
-      this.aboutPanel.Size = new System.Drawing.Size(602, 506);
-      this.aboutPanel.TabIndex = 0;
       // 
       // okButton
       // 
@@ -284,38 +309,11 @@ namespace Cyotek.DownDetector.Client
       this.cancelButton.UseVisualStyleBackColor = true;
       this.cancelButton.Click += new System.EventHandler(this.CancelButton_Click);
       // 
-      // notificationsGroupBox
+      // logTabListPage
       // 
-      notificationsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-      notificationsGroupBox.Controls.Add(this.showNotificationsCheckBox);
-      notificationsGroupBox.Location = new System.Drawing.Point(0, 229);
-      notificationsGroupBox.Name = "notificationsGroupBox";
-      notificationsGroupBox.Size = new System.Drawing.Size(602, 53);
-      notificationsGroupBox.TabIndex = 2;
-      notificationsGroupBox.TabStop = false;
-      notificationsGroupBox.Text = "Notifications";
-      // 
-      // showMenuItemsCheckBox
-      // 
-      this.showMenuItemsCheckBox.AutoSize = true;
-      this.showMenuItemsCheckBox.Location = new System.Drawing.Point(6, 19);
-      this.showMenuItemsCheckBox.Name = "showMenuItemsCheckBox";
-      this.showMenuItemsCheckBox.Size = new System.Drawing.Size(159, 17);
-      this.showMenuItemsCheckBox.TabIndex = 0;
-      this.showMenuItemsCheckBox.Text = "Show &sites on context menu";
-      this.showMenuItemsCheckBox.UseVisualStyleBackColor = true;
-      // 
-      // offlineOnlyCheckBox
-      // 
-      this.offlineOnlyCheckBox.AutoSize = true;
-      this.offlineOnlyCheckBox.Location = new System.Drawing.Point(23, 42);
-      this.offlineOnlyCheckBox.Margin = new System.Windows.Forms.Padding(20, 3, 3, 3);
-      this.offlineOnlyCheckBox.Name = "offlineOnlyCheckBox";
-      this.offlineOnlyCheckBox.Size = new System.Drawing.Size(169, 17);
-      this.offlineOnlyCheckBox.TabIndex = 1;
-      this.offlineOnlyCheckBox.Text = "Only show sites that are &offline";
-      this.offlineOnlyCheckBox.UseVisualStyleBackColor = true;
+      this.logTabListPage.Name = "logTabListPage";
+      this.logTabListPage.Size = new System.Drawing.Size(602, 506);
+      this.logTabListPage.Text = "Log Tail";
       // 
       // SettingsDialog
       // 
@@ -342,12 +340,11 @@ namespace Cyotek.DownDetector.Client
       ((System.ComponentModel.ISupportInitialize)(this.displayCountNumericUpDown)).EndInit();
       startupGroupBox.ResumeLayout(false);
       startupGroupBox.PerformLayout();
+      notificationsGroupBox.ResumeLayout(false);
+      notificationsGroupBox.PerformLayout();
       this.tabList.ResumeLayout(false);
       this.addressTabListPage.ResumeLayout(false);
       this.settingsTabListPage.ResumeLayout(false);
-      this.aboutTabListPage.ResumeLayout(false);
-      notificationsGroupBox.ResumeLayout(false);
-      notificationsGroupBox.PerformLayout();
       this.ResumeLayout(false);
 
     }
@@ -366,8 +363,8 @@ namespace Cyotek.DownDetector.Client
     private System.Windows.Forms.CheckBox startWithWindowsCheckBox;
     private UriInfoCollectionEditor uriInfoCollectionEditor;
     private Windows.Forms.TabListPage aboutTabListPage;
-    private Demo.Windows.Forms.AboutPanel aboutPanel;
     private System.Windows.Forms.CheckBox offlineOnlyCheckBox;
     private System.Windows.Forms.CheckBox showMenuItemsCheckBox;
+    private Windows.Forms.TabListPage logTabListPage;
   }
 }

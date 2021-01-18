@@ -1,4 +1,5 @@
 ﻿using Cyotek.Demo.Windows.Forms;
+using Cyotek.Windows.Forms;
 using System;
 using System.ComponentModel;
 using System.Windows.Forms;
@@ -134,5 +135,24 @@ namespace Cyotek.DownDetector.Client
     }
 
     #endregion Private Methods
+
+    private void TabList_Selected(object sender, TabListEventArgs e)
+    {
+      TabListPage page;
+
+      page = e.TabListPage;
+
+      if (page?.Controls.Count == 0)
+      {
+        if (object.ReferenceEquals(page, aboutTabListPage))
+        {
+          page.Controls.Add(new AboutPanel { Dock = DockStyle.Fill });
+        }
+        else if (object.ReferenceEquals(page, logTabListPage))
+        {
+          page.Controls.Add(new LogViewerPanel { Dock = DockStyle.Fill });
+        }
+      }
+    }
   }
 }
