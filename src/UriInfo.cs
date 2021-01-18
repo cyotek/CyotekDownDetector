@@ -28,7 +28,7 @@ namespace Cyotek.DownDetector
 
     public UriInfo()
     {
-      _followRedirects = false;
+      _followRedirects = true;
       _useHead = true;
     }
 

@@ -74,6 +74,31 @@ namespace Cyotek.DownDetector
       return results;
     }
 
+    public bool TryGetValue(string url, out UriInfo value)
+    {
+      IDictionary<string, UriInfo> dictionary;
+      bool result;
+
+      dictionary = this.Dictionary;
+
+      if (dictionary != null)
+      {
+        result = dictionary.TryGetValue(url, out value);
+      }
+      else
+      {
+        result = false;
+        value = null;
+      }
+
+      return result;
+    }
+
+    public bool TryGetValue(Uri uri, out UriInfo value)
+    {
+      return this.TryGetValue(uri.AbsoluteUri, out value);
+    }
+
     #endregion Public Methods
 
     #region Protected Methods

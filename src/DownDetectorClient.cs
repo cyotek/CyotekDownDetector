@@ -29,11 +29,11 @@ namespace Cyotek.DownDetector
 
     private readonly HttpClient _httpClient;
 
+    private readonly RestrictedRedirectFollowingHttpClientHandler _httpClientHandler;
+
     private bool _disposedValue;
 
     private EventHandlerList _events;
-
-    private HttpClientHandler _httpClientHandler;
 
     private DownDetectorSettings _settings;
 
@@ -51,9 +51,8 @@ namespace Cyotek.DownDetector
     {
       ServicePointManager.MaxServicePointIdleTime = 1000;
 
-      _httpClientHandler = new HttpClientHandler
+      _httpClientHandler = new RestrictedRedirectFollowingHttpClientHandler(this.IsRedirectAllowed)
       {
-        //AllowAutoRedirect = false,
         ServerCertificateCustomValidationCallback = this.ServerCertificateCustomValidationCallback,
       };
 
@@ -419,8 +418,6 @@ namespace Cyotek.DownDetector
         RequestUri = uriInfo.Uri
       };
 
-      //_httpClientHandler.AllowAutoRedirect = uriInfo.FollowRedirects;
-
       _sslPolicyErrors = SslPolicyErrors.None;
 
       try
@@ -450,6 +447,11 @@ namespace Cyotek.DownDetector
       }
 
       return Tuple.Create(newStatus, error);
+    }
+
+    private bool IsRedirectAllowed(HttpResponseMessage obj)
+    {
+      return !_settings.Addresses.TryGetValue(obj.RequestMessage.RequestUri, out UriInfo value) || value.FollowRedirects;
     }
 
     private bool ServerCertificateCustomValidationCallback(HttpRequestMessage request, X509Certificate2 certificate, X509Chain certificateChain, SslPolicyErrors sslPolicyErrors)
