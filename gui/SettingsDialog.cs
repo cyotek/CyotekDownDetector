@@ -1,4 +1,5 @@
 ﻿using Cyotek.Demo.Windows.Forms;
+using Cyotek.DownDetector.Client.Properties;
 using Cyotek.Windows.Forms;
 using System;
 using System.ComponentModel;
@@ -57,6 +58,13 @@ namespace Cyotek.DownDetector.Client
 
     #region Protected Methods
 
+    protected override void OnLoad(EventArgs e)
+    {
+      base.OnLoad(e);
+
+      this.Icon = Resources.ApplicationIcon;
+    }
+
     protected override void OnShown(EventArgs e)
     {
       base.OnShown(e);
@@ -112,6 +120,25 @@ namespace Cyotek.DownDetector.Client
       }
     }
 
+    private void TabList_Selected(object sender, TabListEventArgs e)
+    {
+      TabListPage page;
+
+      page = e.TabListPage;
+
+      if (page?.Controls.Count == 0)
+      {
+        if (object.ReferenceEquals(page, aboutTabListPage))
+        {
+          page.Controls.Add(new AboutPanel { Dock = DockStyle.Fill });
+        }
+        else if (object.ReferenceEquals(page, logTabListPage))
+        {
+          page.Controls.Add(new LogViewerPanel { Dock = DockStyle.Fill });
+        }
+      }
+    }
+
     private void UpdateStartupSetting()
     {
       try
@@ -135,24 +162,5 @@ namespace Cyotek.DownDetector.Client
     }
 
     #endregion Private Methods
-
-    private void TabList_Selected(object sender, TabListEventArgs e)
-    {
-      TabListPage page;
-
-      page = e.TabListPage;
-
-      if (page?.Controls.Count == 0)
-      {
-        if (object.ReferenceEquals(page, aboutTabListPage))
-        {
-          page.Controls.Add(new AboutPanel { Dock = DockStyle.Fill });
-        }
-        else if (object.ReferenceEquals(page, logTabListPage))
-        {
-          page.Controls.Add(new LogViewerPanel { Dock = DockStyle.Fill });
-        }
-      }
-    }
   }
 }
