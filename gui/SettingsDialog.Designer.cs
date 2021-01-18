@@ -49,10 +49,10 @@ namespace Cyotek.DownDetector.Client
       this.addressTabListPage = new Cyotek.Windows.Forms.TabListPage();
       this.uriInfoCollectionEditor = new Cyotek.DownDetector.Client.UriInfoCollectionEditor();
       this.settingsTabListPage = new Cyotek.Windows.Forms.TabListPage();
+      this.logTabListPage = new Cyotek.Windows.Forms.TabListPage();
       this.aboutTabListPage = new Cyotek.Windows.Forms.TabListPage();
       this.okButton = new System.Windows.Forms.Button();
       this.cancelButton = new System.Windows.Forms.Button();
-      this.logTabListPage = new Cyotek.Windows.Forms.TabListPage();
       intervalLabel = new System.Windows.Forms.Label();
       checkSettingsGroupBox = new System.Windows.Forms.GroupBox();
       label1 = new System.Windows.Forms.Label();
@@ -200,7 +200,7 @@ namespace Cyotek.DownDetector.Client
       startupGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
       startupGroupBox.Controls.Add(this.startWithWindowsCheckBox);
-      startupGroupBox.Location = new System.Drawing.Point(1, 288);
+      startupGroupBox.Location = new System.Drawing.Point(0, 288);
       startupGroupBox.Name = "startupGroupBox";
       startupGroupBox.Size = new System.Drawing.Size(602, 53);
       startupGroupBox.TabIndex = 3;
@@ -280,6 +280,12 @@ namespace Cyotek.DownDetector.Client
       this.settingsTabListPage.Size = new System.Drawing.Size(602, 506);
       this.settingsTabListPage.Text = "Settings";
       // 
+      // logTabListPage
+      // 
+      this.logTabListPage.Name = "logTabListPage";
+      this.logTabListPage.Size = new System.Drawing.Size(602, 506);
+      this.logTabListPage.Text = "Log Tail";
+      // 
       // aboutTabListPage
       // 
       this.aboutTabListPage.Name = "aboutTabListPage";
@@ -308,12 +314,6 @@ namespace Cyotek.DownDetector.Client
       this.cancelButton.Text = "Cancel";
       this.cancelButton.UseVisualStyleBackColor = true;
       this.cancelButton.Click += new System.EventHandler(this.CancelButton_Click);
-      // 
-      // logTabListPage
-      // 
-      this.logTabListPage.Name = "logTabListPage";
-      this.logTabListPage.Size = new System.Drawing.Size(602, 506);
-      this.logTabListPage.Text = "Log Tail";
       // 
       // SettingsDialog
       // 
