@@ -439,7 +439,7 @@ namespace Cyotek.DownDetector
 
         error = null;
       }
-      catch (HttpRequestException ex)
+      catch (Exception ex)
       {
         newStatus = UriStatus.Unstable;
 
