@@ -60,12 +60,21 @@ namespace Cyotek.DownDetector
           && (response.Headers.Location != request.RequestUri || (response.StatusCode == HttpStatusCode.RedirectMethod && request.Method != HttpMethod.Get))
           && redirectCount < this.MaxAutomaticRedirections)
       {
+        Uri redirectUri;
+
         if (response.StatusCode == HttpStatusCode.RedirectMethod)
         {
           request.Method = HttpMethod.Get;
         }
 
-        request.RequestUri = response.Headers.Location;
+        redirectUri = response.Headers.Location;
+
+        if (!redirectUri.IsAbsoluteUri)
+        {
+          redirectUri = new Uri(request.RequestUri, redirectUri);
+        }
+
+        request.RequestUri = redirectUri;
         response = await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
 
         redirectCount++;
