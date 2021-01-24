@@ -29,7 +29,7 @@ namespace Cyotek.DownDetector
 
     private readonly HttpClient _httpClient;
 
-    private readonly RestrictedRedirectFollowingHttpClientHandler _httpClientHandler;
+    private readonly HttpMessageHandler _httpClientHandler;
 
     private bool _disposedValue;
 
@@ -51,8 +51,9 @@ namespace Cyotek.DownDetector
     {
       ServicePointManager.MaxServicePointIdleTime = 1000;
 
-      _httpClientHandler = new RestrictedRedirectFollowingHttpClientHandler(this.IsRedirectAllowed)
+      _httpClientHandler = new HttpClientHandler
       {
+        AllowAutoRedirect = false,
         ServerCertificateCustomValidationCallback = this.ServerCertificateCustomValidationCallback,
       };
 
@@ -406,27 +407,89 @@ namespace Cyotek.DownDetector
 
     #region Private Methods
 
+    private static HttpRequestMessage CreateRequest(UriInfo uriInfo, Uri uri)
+    {
+      return new HttpRequestMessage
+      {
+        Method = uriInfo.UseHead ? HttpMethod.Head : HttpMethod.Get,
+        RequestUri = uri
+      };
+    }
+
+    private static bool IsRedirectResponse(HttpStatusCode statusCode)
+    {
+      return statusCode == HttpStatusCode.Moved
+      || statusCode == HttpStatusCode.Redirect
+      || statusCode == HttpStatusCode.RedirectMethod
+      || statusCode == HttpStatusCode.TemporaryRedirect
+      || statusCode == HttpStatusCode.MovedPermanently
+      || statusCode == (HttpStatusCode)308; // PermanentRedirect
+    }
+
+    private async Task<HttpStatusCode> GetResponseCode(UriInfo uriInfo)
+    {
+      int redirectCount;
+      bool done;
+      HttpRequestMessage request;
+      HttpStatusCode statusCode;
+
+      redirectCount = 0;
+      done = false;
+
+      request = DownDetectorClient.CreateRequest(uriInfo, uriInfo.Uri);
+
+      do
+      {
+        HttpResponseMessage response;
+
+        response = await _httpClient.SendAsync(request).ConfigureAwait(false);
+        statusCode = response.StatusCode;
+
+        if (DownDetectorClient.IsRedirectResponse(statusCode) && uriInfo.FollowRedirects)
+        {
+          redirectCount++;
+
+          if (redirectCount > _settings.MaximumRedirects)
+          {
+            done = true;
+          }
+          else
+          {
+            Uri redirectUri;
+
+            redirectUri = response.Headers.Location;
+
+            if (!redirectUri.IsAbsoluteUri)
+            {
+              redirectUri = new Uri(request.RequestUri, redirectUri);
+            }
+
+            request = DownDetectorClient.CreateRequest(uriInfo, redirectUri);
+          }
+        }
+        else
+        {
+          done = true;
+        }
+      } while (!done);
+
+      return statusCode;
+    }
+
     private async Task<Tuple<UriStatus, Exception>> GetUriStatus(UriInfo uriInfo)
     {
       UriStatus newStatus;
-      HttpRequestMessage request;
       Exception error;
-
-      request = new HttpRequestMessage
-      {
-        Method = uriInfo.UseHead ? HttpMethod.Head : HttpMethod.Get,
-        RequestUri = uriInfo.Uri
-      };
 
       _sslPolicyErrors = SslPolicyErrors.None;
 
       try
       {
-        HttpResponseMessage response;
+        HttpStatusCode statusCode;
 
-        response = await _httpClient.SendAsync(request).ConfigureAwait(false);
+        statusCode = await this.GetResponseCode(uriInfo).ConfigureAwait(false);
 
-        newStatus = response.IsSuccessStatusCode
+        newStatus = statusCode == HttpStatusCode.OK
           ? UriStatus.Online
           : UriStatus.Unstable;
 
@@ -447,11 +510,6 @@ namespace Cyotek.DownDetector
       }
 
       return Tuple.Create(newStatus, error);
-    }
-
-    private bool IsRedirectAllowed(HttpResponseMessage obj)
-    {
-      return !_settings.Addresses.TryGetValue(obj.RequestMessage.RequestUri, out UriInfo value) || value.FollowRedirects;
     }
 
     private bool ServerCertificateCustomValidationCallback(HttpRequestMessage request, X509Certificate2 certificate, X509Chain certificateChain, SslPolicyErrors sslPolicyErrors)

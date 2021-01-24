@@ -15,6 +15,8 @@ namespace Cyotek.DownDetector
 
     private int _maximumDisplayItems;
 
+    private int _maximumRedirects;
+
     private bool _showDisplayItems;
 
     private bool _showNotifications;
@@ -42,6 +44,7 @@ namespace Cyotek.DownDetector
       _maximumDisplayItems = 25;
       _showNotifications = true;
       _showDisplayItems = true;
+      _maximumRedirects = 3;
     }
 
     #endregion Public Constructors
@@ -88,6 +91,12 @@ namespace Cyotek.DownDetector
     {
       get { return _maximumDisplayItems; }
       set { this.UpdateAssignment(ref _maximumDisplayItems, value, nameof(this.MaximumDisplayItems)); }
+    }
+
+    public int MaximumRedirects
+    {
+      get { return _maximumRedirects; }
+      set { this.UpdateAssignment(ref _maximumRedirects, value, nameof(this.MaximumRedirects)); }
     }
 
     public bool ShowDisplayItems
