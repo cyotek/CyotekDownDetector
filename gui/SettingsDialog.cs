@@ -2,6 +2,7 @@
 using Cyotek.DownDetector.Client.Properties;
 using Cyotek.Windows.Forms;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 
@@ -10,26 +11,6 @@ namespace Cyotek.DownDetector.Client
   internal partial class SettingsDialog : BaseForm
   {
     #region Private Fields
-
-    private static readonly TimeSpan2[] _defaultIntervals = new[]
-    {
-      TimeSpan2.FromSeconds(30),
-      TimeSpan2.FromMinutes(1),
-      TimeSpan2.FromSeconds(90),
-      TimeSpan2.FromMinutes(5),
-      TimeSpan2.FromMinutes(10),
-      TimeSpan2.FromMinutes(15),
-      TimeSpan2.FromMinutes(20),
-      TimeSpan2.FromMinutes(25),
-      TimeSpan2.FromMinutes(30),
-      TimeSpan2.FromMinutes(45),
-      TimeSpan2.FromHours(1),
-      TimeSpan2.FromHours(2),
-      TimeSpan2.FromHours(4),
-      TimeSpan2.FromHours(8),
-      TimeSpan2.FromHours(12),
-      TimeSpan2.FromDays(1)
-    };
 
     private DownDetectorSettings _settings;
 
@@ -63,18 +44,32 @@ namespace Cyotek.DownDetector.Client
       base.OnLoad(e);
 
       this.Icon = Resources.ApplicationIcon;
-    }
 
-    protected override void OnShown(EventArgs e)
-    {
-      base.OnShown(e);
-
-      this.PopulateFields();
+      // selecting event isn't called on first load
+      this.TabList_Selected(tabList, new TabListEventArgs(tabList.SelectedPage, tabList.SelectedIndex, TabListAction.Selected));
     }
 
     #endregion Protected Methods
 
     #region Private Methods
+
+    private void AddPage<T>(TabListPage host)
+      where T : UserControl, new()
+    {
+      T control;
+
+      control = new T()
+      {
+        Dock = DockStyle.Fill
+      };
+
+      if (control is SettingsPanelBase settingsPanel)
+      {
+        settingsPanel.LoadSettings(_settings);
+      }
+
+      host.Controls.Add(control);
+    }
 
     private void CancelButton_Click(object sender, EventArgs e)
     {
@@ -82,41 +77,30 @@ namespace Cyotek.DownDetector.Client
       this.Close();
     }
 
+    private IEnumerable<SettingsPanelBase> GetSettingsPanels()
+    {
+      foreach (TabListPage page in tabList.TabListPages)
+      {
+        if (page.Controls.Count == 1 && page.Controls[0] is SettingsPanelBase settingsPanel)
+        {
+          yield return settingsPanel;
+        }
+      }
+    }
+
     private void OkButton_Click(object sender, EventArgs e)
     {
-      _settings.Addresses.Clear();
-      _settings.Addresses.AddRange(uriInfoCollectionEditor.Items);
-      _settings.Addresses.Sort();
-
-      _settings.Interval = intervalTimeSpanPicker.Value;
-      _settings.UnstableInterval = unstableIntervalTimeSpanPicker.Value;
-      _settings.MaximumDisplayItems = (int)displayCountNumericUpDown.Value;
-      _settings.ShowNotifications = showNotificationsCheckBox.Checked;
-      _settings.ShowDisplayItems = showMenuItemsCheckBox.Checked;
-      _settings.ShowOfflineItemsOnly = offlineOnlyCheckBox.Checked;
-
-      this.UpdateStartupSetting();
+      this.SaveSettings();
 
       this.DialogResult = DialogResult.OK;
       this.Close();
     }
 
-    private void PopulateFields()
+    private void SaveSettings()
     {
-      intervalTimeSpanPicker.Items.AddRange(_defaultIntervals);
-      unstableIntervalTimeSpanPicker.Items.AddRange(_defaultIntervals);
-
-      if (_settings != null)
+      foreach (SettingsPanelBase settingsPanel in this.GetSettingsPanels())
       {
-        uriInfoCollectionEditor.Statuses = _settings.Statuses;
-        uriInfoCollectionEditor.Items = _settings.Addresses.Clone();
-        intervalTimeSpanPicker.Value = _settings.Interval;
-        unstableIntervalTimeSpanPicker.Value = _settings.UnstableInterval;
-        displayCountNumericUpDown.Value = _settings.MaximumDisplayItems;
-        showNotificationsCheckBox.Checked = _settings.ShowNotifications;
-        startWithWindowsCheckBox.Checked = StartupManager.IsRegisteredForStartup();
-        showMenuItemsCheckBox.Checked = _settings.ShowDisplayItems;
-        offlineOnlyCheckBox.Checked = _settings.ShowOfflineItemsOnly;
+        settingsPanel.SaveSettings(_settings);
       }
     }
 
@@ -128,36 +112,22 @@ namespace Cyotek.DownDetector.Client
 
       if (page?.Controls.Count == 0)
       {
-        if (object.ReferenceEquals(page, aboutTabListPage))
+        if (object.ReferenceEquals(page, addressTabListPage))
         {
-          page.Controls.Add(new AboutPanel { Dock = DockStyle.Fill });
+          this.AddPage<AddressesPanel>(page);
+        }
+        else if (object.ReferenceEquals(page, settingsTabListPage))
+        {
+          this.AddPage<SettingsPanel>(page);
+        }
+        else if (object.ReferenceEquals(page, aboutTabListPage))
+        {
+          this.AddPage<AboutPanel>(page);
         }
         else if (object.ReferenceEquals(page, logTabListPage))
         {
-          page.Controls.Add(new LogViewerPanel { Dock = DockStyle.Fill });
+          this.AddPage<LogViewerPanel>(page);
         }
-      }
-    }
-
-    private void UpdateStartupSetting()
-    {
-      try
-      {
-        if (StartupManager.IsRegisteredForStartup() != startWithWindowsCheckBox.Checked)
-        {
-          if (startWithWindowsCheckBox.Checked)
-          {
-            StartupManager.RegisterStartupApplication();
-          }
-          else
-          {
-            StartupManager.UnregisterStartupApplication();
-          }
-        }
-      }
-      catch (Exception ex)
-      {
-        MessageBox.Show(string.Format("Failed to process startup changes. {0}", ex.Message), Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
       }
     }
 

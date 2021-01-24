@@ -66,6 +66,12 @@
     <Compile Include="AddAddressesDialog.Designer.cs">
       <DependentUpon>AddAddressesDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="AddressesPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AddressesPanel.Designer.cs">
+      <DependentUpon>AddressesPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="BaseForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -96,6 +102,15 @@
     <Compile Include="PetaJson.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SettingsPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SettingsPanel.Designer.cs">
+      <DependentUpon>SettingsPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SettingsPanelBase.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="StartupManager.cs" />
     <Compile Include="StreamUtil.cs" />
     <Compile Include="TrayIconApplicationContext.cs" />
@@ -111,6 +126,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AddAddressesDialog.resx">
       <DependentUpon>AddAddressesDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddressesPanel.resx">
+      <DependentUpon>AddressesPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseForm.resx">
       <DependentUpon>BaseForm.cs</DependentUpon>
@@ -131,6 +149,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="SettingsPanel.resx">
+      <DependentUpon>SettingsPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UriInfoCollectionEditor.resx">
       <DependentUpon>UriInfoCollectionEditor.cs</DependentUpon>
     </EmbeddedResource>
