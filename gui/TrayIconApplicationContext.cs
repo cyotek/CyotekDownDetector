@@ -12,6 +12,8 @@ namespace Cyotek
 
     private ContextMenuStrip _contextMenu;
 
+    private bool _contextMenuLoaded;
+
     private NotifyIcon _notifyIcon;
 
     #endregion Private Fields
@@ -96,6 +98,10 @@ namespace Cyotek
       return _contextMenu.Invoke(method, args);
     }
 
+    protected virtual void OnContextMenuOpening(CancelEventArgs e)
+    {
+    }
+
     protected virtual void OnInitializeContextMenu()
     {
     }
@@ -114,13 +120,18 @@ namespace Cyotek
 
     private void ContextMenuOpeningHandler(object sender, CancelEventArgs e)
     {
-      _contextMenu.Opening -= this.ContextMenuOpeningHandler;
+      if (!_contextMenuLoaded)
+      {
+        // remove the dummy item. Don't just clear the menu though,
+        // in case the menu is manipulated outside the initial call
+        _contextMenu.Items.RemoveByKey(_placeholderMenuName);
 
-      // remove the dummy item. Don't just clear the menu though,
-      // in case the menu is manipulated outside the initial call
-      _contextMenu.Items.RemoveByKey(_placeholderMenuName);
+        _contextMenuLoaded = true;
 
-      this.OnInitializeContextMenu();
+        this.OnInitializeContextMenu();
+      }
+
+      this.OnContextMenuOpening(e);
     }
 
     private void TrayIconClickHandler(object sender, MouseEventArgs e)

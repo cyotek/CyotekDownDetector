@@ -1,6 +1,7 @@
 ﻿using Cyotek.Demo.Windows.Forms;
 using Cyotek.DownDetector.Client.Properties;
 using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Text;
@@ -83,6 +84,13 @@ namespace Cyotek.DownDetector.Client
       base.Dispose(disposing);
     }
 
+    protected override void OnContextMenuOpening(CancelEventArgs e)
+    {
+      base.OnContextMenuOpening(e);
+
+      this.LoadStatusItems();
+    }
+
     protected override void OnInitializeContextMenu()
     {
       this.ContextMenu.Items.Add("&Settings...", null, this.SettingsContextMenuClickHandler).Font = new Font(this.ContextMenu.Font, FontStyle.Bold);
@@ -91,8 +99,6 @@ namespace Cyotek.DownDetector.Client
       this.ContextMenu.Items.Add("&Check Now", null, this.CheckNowContextMenuClickHandler);
       this.ContextMenu.Items.Add("-");
       this.ContextMenu.Items.Add("E&xit", null, this.ExitContextMenuClickHandler);
-
-      this.LoadStatusItems();
 
       base.OnInitializeContextMenu();
     }
