@@ -38,6 +38,7 @@ namespace Cyotek.DownDetector.Client
       System.Windows.Forms.Label unstableIntervalLabel;
       System.Windows.Forms.Label intervalHelpLabel;
       System.Windows.Forms.Label intervalLabel;
+      System.Windows.Forms.Label maximumRedirectsLabel;
       this.showNotificationsCheckBox = new System.Windows.Forms.CheckBox();
       this.startWithWindowsCheckBox = new System.Windows.Forms.CheckBox();
       this.offlineOnlyCheckBox = new System.Windows.Forms.CheckBox();
@@ -45,6 +46,7 @@ namespace Cyotek.DownDetector.Client
       this.displayCountNumericUpDown = new System.Windows.Forms.NumericUpDown();
       this.unstableIntervalTimeSpanPicker = new System.Windows.Forms.TimeSpanPicker();
       this.intervalTimeSpanPicker = new System.Windows.Forms.TimeSpanPicker();
+      this.maximumRedirectsNumericUpDown = new System.Windows.Forms.NumericUpDown();
       notificationsGroupBox = new System.Windows.Forms.GroupBox();
       startupGroupBox = new System.Windows.Forms.GroupBox();
       menuGroupBox = new System.Windows.Forms.GroupBox();
@@ -54,11 +56,13 @@ namespace Cyotek.DownDetector.Client
       unstableIntervalLabel = new System.Windows.Forms.Label();
       intervalHelpLabel = new System.Windows.Forms.Label();
       intervalLabel = new System.Windows.Forms.Label();
+      maximumRedirectsLabel = new System.Windows.Forms.Label();
       notificationsGroupBox.SuspendLayout();
       startupGroupBox.SuspendLayout();
       menuGroupBox.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.displayCountNumericUpDown)).BeginInit();
       checkSettingsGroupBox.SuspendLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.maximumRedirectsNumericUpDown)).BeginInit();
       this.SuspendLayout();
       // 
       // notificationsGroupBox
@@ -66,9 +70,9 @@ namespace Cyotek.DownDetector.Client
       notificationsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
       notificationsGroupBox.Controls.Add(this.showNotificationsCheckBox);
-      notificationsGroupBox.Location = new System.Drawing.Point(0, 230);
+      notificationsGroupBox.Location = new System.Drawing.Point(0, 254);
       notificationsGroupBox.Name = "notificationsGroupBox";
-      notificationsGroupBox.Size = new System.Drawing.Size(932, 53);
+      notificationsGroupBox.Size = new System.Drawing.Size(662, 53);
       notificationsGroupBox.TabIndex = 2;
       notificationsGroupBox.TabStop = false;
       notificationsGroupBox.Text = "Notifications";
@@ -88,9 +92,9 @@ namespace Cyotek.DownDetector.Client
       startupGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
       startupGroupBox.Controls.Add(this.startWithWindowsCheckBox);
-      startupGroupBox.Location = new System.Drawing.Point(0, 289);
+      startupGroupBox.Location = new System.Drawing.Point(0, 313);
       startupGroupBox.Name = "startupGroupBox";
-      startupGroupBox.Size = new System.Drawing.Size(932, 53);
+      startupGroupBox.Size = new System.Drawing.Size(662, 53);
       startupGroupBox.TabIndex = 3;
       startupGroupBox.TabStop = false;
       startupGroupBox.Text = "Startup";
@@ -113,9 +117,9 @@ namespace Cyotek.DownDetector.Client
       menuGroupBox.Controls.Add(this.showMenuItemsCheckBox);
       menuGroupBox.Controls.Add(this.displayCountNumericUpDown);
       menuGroupBox.Controls.Add(displayCountLabel);
-      menuGroupBox.Location = new System.Drawing.Point(0, 126);
+      menuGroupBox.Location = new System.Drawing.Point(0, 150);
       menuGroupBox.Name = "menuGroupBox";
-      menuGroupBox.Size = new System.Drawing.Size(932, 98);
+      menuGroupBox.Size = new System.Drawing.Size(662, 98);
       menuGroupBox.TabIndex = 1;
       menuGroupBox.TabStop = false;
       menuGroupBox.Text = "Display";
@@ -144,9 +148,24 @@ namespace Cyotek.DownDetector.Client
       // displayCountNumericUpDown
       // 
       this.displayCountNumericUpDown.Location = new System.Drawing.Point(190, 65);
+      this.displayCountNumericUpDown.Maximum = new decimal(new int[] {
+            99,
+            0,
+            0,
+            0});
+      this.displayCountNumericUpDown.Minimum = new decimal(new int[] {
+            4,
+            0,
+            0,
+            0});
       this.displayCountNumericUpDown.Name = "displayCountNumericUpDown";
       this.displayCountNumericUpDown.Size = new System.Drawing.Size(59, 20);
       this.displayCountNumericUpDown.TabIndex = 3;
+      this.displayCountNumericUpDown.Value = new decimal(new int[] {
+            4,
+            0,
+            0,
+            0});
       // 
       // displayCountLabel
       // 
@@ -161,6 +180,8 @@ namespace Cyotek.DownDetector.Client
       // 
       checkSettingsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+      checkSettingsGroupBox.Controls.Add(this.maximumRedirectsNumericUpDown);
+      checkSettingsGroupBox.Controls.Add(maximumRedirectsLabel);
       checkSettingsGroupBox.Controls.Add(label1);
       checkSettingsGroupBox.Controls.Add(this.unstableIntervalTimeSpanPicker);
       checkSettingsGroupBox.Controls.Add(unstableIntervalLabel);
@@ -169,7 +190,7 @@ namespace Cyotek.DownDetector.Client
       checkSettingsGroupBox.Controls.Add(this.intervalTimeSpanPicker);
       checkSettingsGroupBox.Location = new System.Drawing.Point(0, 0);
       checkSettingsGroupBox.Name = "checkSettingsGroupBox";
-      checkSettingsGroupBox.Size = new System.Drawing.Size(932, 120);
+      checkSettingsGroupBox.Size = new System.Drawing.Size(662, 144);
       checkSettingsGroupBox.TabIndex = 0;
       checkSettingsGroupBox.TabStop = false;
       checkSettingsGroupBox.Text = "Availability Checks";
@@ -228,6 +249,38 @@ namespace Cyotek.DownDetector.Client
       this.intervalTimeSpanPicker.Size = new System.Drawing.Size(235, 21);
       this.intervalTimeSpanPicker.TabIndex = 1;
       // 
+      // maximumRedirectsNumericUpDown
+      // 
+      this.maximumRedirectsNumericUpDown.Location = new System.Drawing.Point(162, 111);
+      this.maximumRedirectsNumericUpDown.Margin = new System.Windows.Forms.Padding(3, 9, 3, 3);
+      this.maximumRedirectsNumericUpDown.Maximum = new decimal(new int[] {
+            99,
+            0,
+            0,
+            0});
+      this.maximumRedirectsNumericUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+      this.maximumRedirectsNumericUpDown.Name = "maximumRedirectsNumericUpDown";
+      this.maximumRedirectsNumericUpDown.Size = new System.Drawing.Size(59, 20);
+      this.maximumRedirectsNumericUpDown.TabIndex = 7;
+      this.maximumRedirectsNumericUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+      // 
+      // maximumRedirectsLabel
+      // 
+      maximumRedirectsLabel.AutoSize = true;
+      maximumRedirectsLabel.Location = new System.Drawing.Point(3, 113);
+      maximumRedirectsLabel.Name = "maximumRedirectsLabel";
+      maximumRedirectsLabel.Size = new System.Drawing.Size(153, 13);
+      maximumRedirectsLabel.TabIndex = 6;
+      maximumRedirectsLabel.Text = "Maximum &redirect chain length:";
+      // 
       // SettingsPanel
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -237,7 +290,7 @@ namespace Cyotek.DownDetector.Client
       this.Controls.Add(menuGroupBox);
       this.Controls.Add(checkSettingsGroupBox);
       this.Name = "SettingsPanel";
-      this.Size = new System.Drawing.Size(932, 644);
+      this.Size = new System.Drawing.Size(662, 540);
       notificationsGroupBox.ResumeLayout(false);
       notificationsGroupBox.PerformLayout();
       startupGroupBox.ResumeLayout(false);
@@ -247,6 +300,7 @@ namespace Cyotek.DownDetector.Client
       ((System.ComponentModel.ISupportInitialize)(this.displayCountNumericUpDown)).EndInit();
       checkSettingsGroupBox.ResumeLayout(false);
       checkSettingsGroupBox.PerformLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.maximumRedirectsNumericUpDown)).EndInit();
       this.ResumeLayout(false);
 
     }
@@ -260,5 +314,6 @@ namespace Cyotek.DownDetector.Client
     private System.Windows.Forms.NumericUpDown displayCountNumericUpDown;
     private System.Windows.Forms.TimeSpanPicker unstableIntervalTimeSpanPicker;
     private System.Windows.Forms.TimeSpanPicker intervalTimeSpanPicker;
+    private System.Windows.Forms.NumericUpDown maximumRedirectsNumericUpDown;
   }
 }

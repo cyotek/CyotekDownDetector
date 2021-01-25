@@ -49,6 +49,7 @@ namespace Cyotek.DownDetector.Client
       startWithWindowsCheckBox.Checked = StartupManager.IsRegisteredForStartup();
       showMenuItemsCheckBox.Checked = settings.ShowDisplayItems;
       offlineOnlyCheckBox.Checked = settings.ShowOfflineItemsOnly;
+      maximumRedirectsNumericUpDown.Value = settings.MaximumRedirects;
 
       base.LoadSettings(settings);
     }
@@ -61,6 +62,7 @@ namespace Cyotek.DownDetector.Client
       settings.ShowNotifications = showNotificationsCheckBox.Checked;
       settings.ShowDisplayItems = showMenuItemsCheckBox.Checked;
       settings.ShowOfflineItemsOnly = offlineOnlyCheckBox.Checked;
+      settings.MaximumRedirects = (int)maximumRedirectsNumericUpDown.Value;
 
       this.UpdateStartupSetting();
 
