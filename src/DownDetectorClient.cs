@@ -248,6 +248,7 @@ namespace Cyotek.DownDetector
       UriEventArgs args;
       UriStatus newStatus;
       Exception error;
+      HttpStatusCode httpStatus;
 
       uri = uriInfo.Uri;
 
@@ -267,14 +268,14 @@ namespace Cyotek.DownDetector
 
       this.OnUriChecking(args);
 
-      (newStatus, error) = await this.GetUriStatus(uriInfo).ConfigureAwait(false);
+      (newStatus, httpStatus, error) = await this.GetUriStatus(uriInfo).ConfigureAwait(false);
 
       if (error != null)
       {
         this.OnUriException(new UriExceptionEventArgs(uri, error));
       }
 
-      this.UpdateStatus(status, newStatus);
+      this.UpdateStatus(status, httpStatus,newStatus);
 
       this.OnUriChecked(args);
     }
@@ -476,20 +477,20 @@ namespace Cyotek.DownDetector
       return statusCode;
     }
 
-    private async Task<Tuple<UriStatus, Exception>> GetUriStatus(UriInfo uriInfo)
+    private async Task<Tuple<UriStatus, HttpStatusCode, Exception>> GetUriStatus(UriInfo uriInfo)
     {
       UriStatus newStatus;
       Exception error;
+      HttpStatusCode httpStatus;
 
       _sslPolicyErrors = SslPolicyErrors.None;
 
       try
       {
-        HttpStatusCode statusCode;
 
-        statusCode = await this.GetResponseCode(uriInfo).ConfigureAwait(false);
+        httpStatus = await this.GetResponseCode(uriInfo).ConfigureAwait(false);
 
-        newStatus = statusCode == HttpStatusCode.OK
+        newStatus = httpStatus == HttpStatusCode.OK
           ? UriStatus.Online
           : UriStatus.Unstable;
 
@@ -505,11 +506,11 @@ namespace Cyotek.DownDetector
       catch (Exception ex)
       {
         newStatus = UriStatus.Unstable;
-
+        httpStatus = 0;
         error = ex;
       }
 
-      return Tuple.Create(newStatus, error);
+      return Tuple.Create(newStatus, httpStatus, error);
     }
 
     private bool ServerCertificateCustomValidationCallback(HttpRequestMessage request, X509Certificate2 certificate, X509Chain certificateChain, SslPolicyErrors sslPolicyErrors)
@@ -536,7 +537,7 @@ namespace Cyotek.DownDetector
       await this.CheckAll().ConfigureAwait(false);
     }
 
-    private void UpdateStatus(UriStatusInfo status, UriStatus newStatus)
+    private void UpdateStatus(UriStatusInfo status, HttpStatusCode httpStatus, UriStatus newStatus)
     {
       UriStatus previousStatus;
 
@@ -555,6 +556,7 @@ namespace Cyotek.DownDetector
       {
         status.LastChange = DateTimeOffset.UtcNow;
         status.Status = newStatus;
+        status.HttpStatus = httpStatus;
 
         this.OnUriStatusChanged(new UriStatusInfoEventArgs(status));
       }

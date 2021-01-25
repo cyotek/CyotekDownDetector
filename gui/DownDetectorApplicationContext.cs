@@ -4,6 +4,7 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
+using System.Net;
 using System.Text;
 using System.Windows.Forms;
 
@@ -135,6 +136,13 @@ namespace Cyotek.DownDetector.Client
     private void ExitContextMenuClickHandler(object sender, EventArgs eventArgs)
     {
       this.ExitThread();
+    }
+
+    private object GetHttpStatusCodeString(HttpStatusCode httpStatus)
+    {
+      return httpStatus != 0
+        ? ((int)httpStatus).ToString()
+        : string.Empty;
     }
 
     private int GetOfflineCount()
@@ -368,6 +376,17 @@ namespace Cyotek.DownDetector.Client
       }
     }
 
+    private void SetSiteOfflineToolTip(Uri uri)
+    {
+      string title;
+      string text;
+
+      title = "Site Offline";
+      text = string.Format("Site '{0}' is offline.", uri);
+
+      this.TrayIcon.ShowBalloonTip(1000, text, title, ToolTipIcon.Error);
+    }
+
     private void SettingsContextMenuClickHandler(object sender, EventArgs eventArgs)
     {
       this.ShowSettings();
@@ -479,23 +498,21 @@ namespace Cyotek.DownDetector.Client
       }
       else
       {
+        UriStatusInfo status;
+
         this.SaveSettings();
 
-        this.UpdateStatusIcon(e.StatusInfo);
+        status = e.StatusInfo;
+
+        this.UpdateStatusIcon(status);
 
         this.SetIcon();
 
-        this.Log(string.Format("Site '{0}' is {1}", e.StatusInfo.Uri, e.StatusInfo.Status));
+        this.Log(string.Format("Site '{0}' is {1} ({2}).", status.Uri, status.Status, this.GetHttpStatusCodeString(status.HttpStatus)));
 
-        if (e.StatusInfo.Status == UriStatus.Offline && _client.Settings.ShowNotifications)
+        if (status.Status == UriStatus.Offline && _client.Settings.ShowNotifications)
         {
-          string title;
-          string text;
-
-          title = "Site Offline";
-          text = string.Format("Site '{0}' is offline.", e.Uri);
-
-          this.TrayIcon.ShowBalloonTip(1000, text, title, ToolTipIcon.Error);
+          this.SetSiteOfflineToolTip(e.Uri);
         }
       }
     }

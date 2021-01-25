@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Net;
 
 namespace Cyotek.DownDetector
 {
   public class UriStatusInfo
   {
     #region Private Fields
+
+    private HttpStatusCode _httpStatus;
 
     private DateTimeOffset _lastChange;
 
@@ -16,22 +19,28 @@ namespace Cyotek.DownDetector
 
     #region Public Properties
 
+    public HttpStatusCode HttpStatus
+    {
+      get => _httpStatus;
+      set => _httpStatus = value;
+    }
+
     public DateTimeOffset LastChange
     {
-      get { return _lastChange; }
-      set { _lastChange = value; }
+      get => _lastChange;
+      set => _lastChange = value;
     }
 
     public UriStatus Status
     {
-      get { return _status; }
-      set { _status = value; }
+      get => _status;
+      set => _status = value;
     }
 
     public Uri Uri
     {
-      get { return _uri; }
-      set { _uri = value; }
+      get => _uri;
+      set => _uri = value;
     }
 
     #endregion Public Properties
