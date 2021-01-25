@@ -28,6 +28,8 @@ namespace Cyotek.DownDetector.Client
 
     private string _settingsFileName;
 
+    private bool _statusMenuItemsPresent;
+
     #endregion Private Fields
 
     #region Public Constructors
@@ -121,6 +123,11 @@ namespace Cyotek.DownDetector.Client
     private async void CheckedHandler(object sender, EventArgs e)
     {
       await _logWriter.FlushAsync().ConfigureAwait(false);
+
+      if (_statusMenuItemsPresent)
+      {
+        this.RemoveExistingStatusItems();
+      }
     }
 
     private void CheckingHandler(object sender, EventArgs e)
@@ -250,7 +257,7 @@ namespace Cyotek.DownDetector.Client
 
         items = this.ContextMenu.Items;
 
-        this.RemoveExistingStatusItem(items);
+        this.RemoveExistingStatusItems();
 
         if (_client.Settings.ShowDisplayItems)
         {
@@ -299,6 +306,8 @@ namespace Cyotek.DownDetector.Client
 
           if (index > 0)
           {
+            _statusMenuItemsPresent = true;
+
             items.Insert(index, new ToolStripSeparator
             {
               Tag = "sitebreak"
@@ -326,19 +335,32 @@ namespace Cyotek.DownDetector.Client
       AboutPanel.OpenUrl(_logFileName);
     }
 
-    private void RemoveExistingStatusItem(ToolStripItemCollection items)
+    private void RemoveExistingStatusItems()
     {
-      for (int i = items.Count; i > 0; i--)
+      if (this.InvokeRequired)
       {
-        ToolStripItem item;
+        this.Invoke(new MethodInvoker(this.RemoveExistingStatusItems));
+      }
+      else
+      {
+        ToolStripItemCollection items;
 
-        item = items[i - 1];
+        items = this.ContextMenu.Items;
 
-        if (item.Tag != null)
+        for (int i = items.Count; i > 0; i--)
         {
-          item.Click -= this.UrlMenuClickHandler;
-          items.RemoveAt(i - 1);
+          ToolStripItem item;
+
+          item = items[i - 1];
+
+          if (item.Tag != null)
+          {
+            item.Click -= this.UrlMenuClickHandler;
+            items.RemoveAt(i - 1);
+          }
         }
+
+        _statusMenuItemsPresent = false;
       }
     }
 
