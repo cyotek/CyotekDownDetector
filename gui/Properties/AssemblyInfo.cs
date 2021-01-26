@@ -2,6 +2,17 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 
+// Cyotek Down Detector
+// https://github.com/cyotek/CyotekDownDetector
+
+// Copyright © 2021 Cyotek Ltd. All Rights Reserved.
+
+// This work is licensed under the MIT License.
+// See LICENSE.txt for the full text
+
+// Found this example useful?
+// https://www.paypal.me/cyotek
+
 [assembly: AssemblyTitle("Cyotek Down Detector Client")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]

@@ -2,6 +2,17 @@
 using System.ComponentModel;
 using System.Windows.Forms;
 
+// Creating long running Windows Forms applications without a start-up form
+// https://devblog.cyotek.com/post/creating-long-running-windows-forms-applications-without-a-start-up-form
+
+// Copyright © 2013-2021 Cyotek Ltd. All Rights Reserved.
+
+// This work is licensed under the MIT License.
+// See LICENSE.txt for the full text
+
+// Found this example useful?
+// https://www.paypal.me/cyotek
+
 namespace Cyotek
 {
   internal abstract class TrayIconApplicationContext : ApplicationContext
