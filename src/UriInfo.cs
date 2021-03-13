@@ -17,6 +17,8 @@ namespace Cyotek.DownDetector
   {
     #region Private Fields
 
+    private bool _enabled;
+
     private bool _followRedirects;
 
     private bool _ignoreSslErrors;
@@ -35,12 +37,14 @@ namespace Cyotek.DownDetector
       _ignoreSslErrors = copyFrom._ignoreSslErrors;
       _useHead = copyFrom._useHead;
       _uri = new Uri(copyFrom._uri.OriginalString);
+      _enabled = copyFrom.Enabled;
     }
 
     public UriInfo()
     {
       _followRedirects = true;
       _useHead = true;
+      _enabled = true;
     }
 
     public UriInfo(string uri)
@@ -52,6 +56,12 @@ namespace Cyotek.DownDetector
     #endregion Public Constructors
 
     #region Public Properties
+
+    public bool Enabled
+    {
+      get => _enabled;
+      set => _enabled = value;
+    }
 
     public bool FollowRedirects
     {

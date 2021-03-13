@@ -245,7 +245,14 @@ namespace Cyotek.DownDetector
 
       for (int i = 0; i < info.Length; i++)
       {
-        await this.CheckUri(info[i]).ConfigureAwait(false);
+        UriInfo uriInfo;
+
+        uriInfo = info[i];
+
+        if (uriInfo.Enabled)
+        {
+          await this.CheckUri(uriInfo).ConfigureAwait(false);
+        }
       }
 
       this.Reset();

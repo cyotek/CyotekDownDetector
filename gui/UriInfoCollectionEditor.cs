@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Drawing;
 using System.Windows.Forms;
 
 // Cyotek Down Detector
@@ -125,6 +126,22 @@ namespace Cyotek.DownDetector.Client
       }
     }
 
+    private void AddressesListView_ItemChecked(object sender, ItemCheckedEventArgs e)
+    {
+      if (!_skipChangeEvents)
+      {
+        ListViewItem listViewItem;
+        UriInfo uriInfo;
+
+        listViewItem = e.Item;
+        uriInfo = (UriInfo)listViewItem.Tag;
+
+        uriInfo.Enabled = listViewItem.Checked;
+
+        this.Populate(uriInfo, listViewItem);
+      }
+    }
+
     private void AddressesListView_SelectedIndexChanged(object sender, EventArgs e)
     {
       selectionTimer.Stop();
@@ -227,6 +244,8 @@ namespace Cyotek.DownDetector.Client
 
       if (_items != null)
       {
+        _skipChangeEvents = true;
+
         for (int i = 0; i < _items.Count; i++)
         {
           UriInfo item;
@@ -240,6 +259,8 @@ namespace Cyotek.DownDetector.Client
 
           addressesListView.Items.Add(listViewItem);
         }
+
+        _skipChangeEvents = false;
       }
 
       addressesListView.EndUpdate();
@@ -247,12 +268,16 @@ namespace Cyotek.DownDetector.Client
 
     private void Populate(UriInfo item, ListViewItem listViewItem)
     {
+      listViewItem.ForeColor = item.Enabled
+        ? SystemColors.WindowText
+        : SystemColors.GrayText;
       listViewItem.ImageIndex = this.GetImageIndex(item);
       listViewItem.SubItems[1].Text = item.Uri.AbsoluteUri;
       listViewItem.SubItems[2].Text = item.IgnoreSslErrors.ToYesNoString();
       listViewItem.SubItems[3].Text = item.FollowRedirects.ToYesNoString();
       listViewItem.SubItems[4].Text = item.UseHead.ToYesNoString();
       listViewItem.SubItems[5].Text = this.GetLastUpdated(item);
+      listViewItem.Checked = item.Enabled;
     }
 
     private void PopulateMultiSelectionFields()

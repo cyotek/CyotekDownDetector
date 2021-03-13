@@ -180,6 +180,7 @@ namespace Cyotek.DownDetector.Client
       this.addressesListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+      this.addressesListView.CheckBoxes = true;
       this.addressesListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.statusColumnHeader,
             this.uriColumnHeader,
@@ -198,12 +199,13 @@ namespace Cyotek.DownDetector.Client
       this.addressesListView.TabIndex = 1;
       this.addressesListView.UseCompatibleStateImageBehavior = false;
       this.addressesListView.View = System.Windows.Forms.View.Details;
+      this.addressesListView.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.AddressesListView_ItemChecked);
       this.addressesListView.SelectedIndexChanged += new System.EventHandler(this.AddressesListView_SelectedIndexChanged);
       // 
       // statusColumnHeader
       // 
       this.statusColumnHeader.Text = "";
-      this.statusColumnHeader.Width = 20;
+      this.statusColumnHeader.Width = 40;
       // 
       // uriColumnHeader
       // 
