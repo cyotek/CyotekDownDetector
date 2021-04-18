@@ -40,7 +40,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Cyotek.Windows.Forms.TabList, Version=2.0.0.0, Culture=neutral, PublicKeyToken=58daa28b0b2de221, processorArchitecture=MSIL">
-      <HintPath>T:\packages\CyotekTabList.2.2.0\lib\net35\Cyotek.Windows.Forms.TabList.dll</HintPath>
+      <HintPath>..\packages\CyotekTabList.2.2.0\lib\net35\Cyotek.Windows.Forms.TabList.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -50,7 +50,7 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="TimeSpan2, Version=2.3.0.0, Culture=neutral, PublicKeyToken=0f30172e1249faac, processorArchitecture=MSIL">
-      <HintPath>T:\packages\TimeSpan2.2.3.0\lib\net45\TimeSpan2.dll</HintPath>
+      <HintPath>..\packages\TimeSpan2.2.3.0\lib\net45\TimeSpan2.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
