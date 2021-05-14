@@ -24,6 +24,8 @@ namespace Cyotek.DownDetector
 
     private TimeSpan _interval;
 
+    private bool _logDatesAsUtc;
+
     private int _maximumDisplayItems;
 
     private int _maximumRedirects;
@@ -56,6 +58,7 @@ namespace Cyotek.DownDetector
       _showNotifications = true;
       _showDisplayItems = true;
       _maximumRedirects = 3;
+      _logDatesAsUtc = true;
     }
 
     #endregion Public Constructors
@@ -96,6 +99,12 @@ namespace Cyotek.DownDetector
     {
       get { return _interval; }
       set { this.UpdateAssignment(ref _interval, value, nameof(this.Interval)); }
+    }
+
+    public bool LogDatesAsUtc
+    {
+      get { return _logDatesAsUtc; }
+      set { this.UpdateAssignment(ref _logDatesAsUtc, value, nameof(this.LogDatesAsUtc)); }
     }
 
     public int MaximumDisplayItems

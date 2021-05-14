@@ -336,7 +336,7 @@ namespace Cyotek.DownDetector.Client
       System.Diagnostics.Debug.WriteLine(text);
 #endif
 
-      _logWriter.Write(DateTime.UtcNow);
+      _logWriter.Write(_client.Settings.LogDatesAsUtc ? DateTime.UtcNow : DateTime.Now);
       _logWriter.Write('\t');
       _logWriter.WriteLine(text);
     }

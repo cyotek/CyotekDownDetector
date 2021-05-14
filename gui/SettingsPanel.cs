@@ -18,8 +18,8 @@ namespace Cyotek.DownDetector.Client
   {
     #region Private Fields
 
-    private static readonly TimeSpan2[] _defaultIntervals = new[]
-{
+    private static readonly TimeSpan2[] _defaultIntervals =
+    {
       TimeSpan2.FromSeconds(30),
       TimeSpan2.FromMinutes(1),
       TimeSpan2.FromSeconds(90),
@@ -61,6 +61,7 @@ namespace Cyotek.DownDetector.Client
       showMenuItemsCheckBox.Checked = settings.ShowDisplayItems;
       offlineOnlyCheckBox.Checked = settings.ShowOfflineItemsOnly;
       maximumRedirectsNumericUpDown.Value = settings.MaximumRedirects;
+      logDatesAsUtcCheckBox.Checked = settings.LogDatesAsUtc;
 
       base.LoadSettings(settings);
     }
@@ -74,6 +75,7 @@ namespace Cyotek.DownDetector.Client
       settings.ShowDisplayItems = showMenuItemsCheckBox.Checked;
       settings.ShowOfflineItemsOnly = offlineOnlyCheckBox.Checked;
       settings.MaximumRedirects = (int)maximumRedirectsNumericUpDown.Value;
+      settings.LogDatesAsUtc = logDatesAsUtcCheckBox.Checked;
 
       this.UpdateStartupSetting();
 

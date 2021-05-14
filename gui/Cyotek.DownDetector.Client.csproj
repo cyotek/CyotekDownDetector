@@ -7,7 +7,7 @@
     <ProjectGuid>{C32C8721-BD50-42B6-86E6-87A60AA2A7C8}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Cyotek.DownDetector.Client</RootNamespace>
-    <AssemblyName>ctkddtkd</AssemblyName>
+    <AssemblyName>ctkdd</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

@@ -12,6 +12,6 @@ CALL ..\..\..\build\set35vars.bat
 %msbuildexe% Cyotek.DownDetector.sln /p:Configuration=Release /verbosity:minimal /nologo /t:Clean,Build
 
 CALL signcmd .\gui\bin\Release\Cyotek.DownDetector.dll
-CALL signcmd .\gui\bin\Release\ctkddtkd.exe
+CALL signcmd .\gui\bin\Release\ctkdd.exe
 
 ENDLOCAL

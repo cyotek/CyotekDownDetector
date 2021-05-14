@@ -54,6 +54,8 @@ The following global settings can be configured
   size
 * Show notifications. Specifies if desktop notifications are
   displayed. Or you could just rely on the tray icon
+* Log dates as UTC. Configure if you want dates written to the
+  log file to be in UTC or local time
 * Start with Windows. Self explanatory I hope
 
 All settings and statuses are stored in `ctkddtkd.json` in the
