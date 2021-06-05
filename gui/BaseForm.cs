@@ -9,7 +9,7 @@ using System.Windows.Forms;
 // Writing DOOM WAD files
 // https://www.cyotek.com/blog/writing-doom-wad-files
 
-// Copyright © 2020 Cyotek Ltd. All Rights Reserved.
+// Copyright © 2020-2021 Cyotek Ltd. All Rights Reserved.
 
 // This work is licensed under the MIT License.
 // See LICENSE.txt for the full text
@@ -31,11 +31,21 @@ namespace Cyotek.Demo.Windows.Forms
       base.ShowInTaskbar = false;
       base.StartPosition = FormStartPosition.CenterParent;
       base.FormBorderStyle = FormBorderStyle.FixedDialog;
+      this.AutoScaleDimensions = new SizeF(6F, 13F);
+      this.AutoScaleMode = AutoScaleMode.Font;
     }
 
     #endregion Protected Constructors
 
     #region Public Properties
+
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public override Font Font
+    {
+      get => base.Font;
+      set => base.Font = value;
+    }
 
     [DefaultValue(typeof(FormBorderStyle), "FixedDialog")]
     public new FormBorderStyle FormBorderStyle

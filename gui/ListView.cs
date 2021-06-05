@@ -4,7 +4,7 @@ using System.Windows.Forms;
 // Enabling shell styles for the ListView and TreeView controls in C#
 // https://devblog.cyotek.com/post/enabling-shell-styles-for-the-listview-and-treeview-controls-in-csharp
 
-// Copyright © 2011 Cyotek Ltd. All Rights Reserved.
+// Copyright © 2011-2021 Cyotek Ltd. All Rights Reserved.
 
 // This work is licensed under the MIT License.
 // See LICENSE.txt for the full text
@@ -22,12 +22,21 @@ namespace Cyotek.Windows.Forms
 
     #endregion Private Fields
 
+    #region Public Constructors
+
+    public ListView()
+    {
+      base.DoubleBuffered = true;
+    }
+
+    #endregion Public Constructors
+
     #region Protected Methods
 
     protected override void OnHandleCreated(EventArgs e)
     {
       _ignoreEvents = true;
-      
+
       base.OnHandleCreated(e);
 
       if (!this.DesignMode && Environment.OSVersion.Platform == PlatformID.Win32NT && Environment.OSVersion.Version.Major >= 6)

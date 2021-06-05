@@ -130,9 +130,6 @@
     <EmbeddedResource Include="AddressesPanel.resx">
       <DependentUpon>AddressesPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="BaseForm.resx">
-      <DependentUpon>BaseForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="LogViewerPanel.resx">
       <DependentUpon>LogViewerPanel.cs</DependentUpon>
     </EmbeddedResource>
