@@ -35,7 +35,8 @@ For each site you can configure the following attributes
 
 The following global settings can be configured
 
-* Check interval. Lets you specify how often each site is checked
+* Check interval. Lets you specify how often each site is
+  checked
 * Unstable interval. Defines the interval between a problem
   being identified and deciding the site is offline. Helps avoid
   spurious notifications if an application is restarting or
@@ -57,6 +58,8 @@ The following global settings can be configured
 * Log dates as UTC. Configure if you want dates written to the
   log file to be in UTC or local time
 * Start with Windows. Self explanatory I hope
+* Wake delay. Specifies how long to wait after the computer
+  wakes from sleep before availability checks are made
 
 All settings and statuses are stored in `ctkddtkd.json` in the
 same directory as the executable. In addition, `ctkddtkd.log`

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Windows.Forms;
-
-// Cyotek Down Detector
+﻿// Cyotek Down Detector
 // https://github.com/cyotek/CyotekDownDetector
 
 // Copyright © 2021 Cyotek Ltd. All Rights Reserved.
@@ -10,7 +7,10 @@ using System.Windows.Forms;
 // See LICENSE.txt for the full text
 
 // Found this example useful?
-// https://www.paypal.me/cyotek
+// https://www.cyotek.com/contribute
+
+using System;
+using System.Windows.Forms;
 
 namespace Cyotek.DownDetector.Client
 {
@@ -62,6 +62,7 @@ namespace Cyotek.DownDetector.Client
       offlineOnlyCheckBox.Checked = settings.ShowOfflineItemsOnly;
       maximumRedirectsNumericUpDown.Value = settings.MaximumRedirects;
       logDatesAsUtcCheckBox.Checked = settings.LogDatesAsUtc;
+      wakeUpDelayTimeSpanPicker.Value = settings.WakeUpDelay;
 
       base.LoadSettings(settings);
     }
@@ -76,6 +77,7 @@ namespace Cyotek.DownDetector.Client
       settings.ShowOfflineItemsOnly = offlineOnlyCheckBox.Checked;
       settings.MaximumRedirects = (int)maximumRedirectsNumericUpDown.Value;
       settings.LogDatesAsUtc = logDatesAsUtcCheckBox.Checked;
+      settings.WakeUpDelay = wakeUpDelayTimeSpanPicker.Value;
 
       this.UpdateStartupSetting();
 
@@ -94,6 +96,7 @@ namespace Cyotek.DownDetector.Client
       {
         intervalTimeSpanPicker.Items.AddRange(_defaultIntervals);
         unstableIntervalTimeSpanPicker.Items.AddRange(_defaultIntervals);
+        wakeUpDelayTimeSpanPicker.Items.AddRange(_defaultIntervals);
       }
     }
 

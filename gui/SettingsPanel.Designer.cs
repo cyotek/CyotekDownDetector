@@ -35,11 +35,14 @@ namespace Cyotek.DownDetector.Client
       System.Windows.Forms.Label displayCountLabel;
       System.Windows.Forms.GroupBox checkSettingsGroupBox;
       System.Windows.Forms.Label maximumRedirectsLabel;
-      System.Windows.Forms.Label label1;
+      System.Windows.Forms.Label unstableIntervalHintLabel;
       System.Windows.Forms.Label unstableIntervalLabel;
       System.Windows.Forms.Label intervalHelpLabel;
       System.Windows.Forms.Label intervalLabel;
       System.Windows.Forms.GroupBox loggingGroupBox;
+      System.Windows.Forms.GroupBox powerGroupBox;
+      System.Windows.Forms.Label wakeDelayLabel;
+      System.Windows.Forms.Label wakeDelayHintLabel;
       this.showNotificationsCheckBox = new System.Windows.Forms.CheckBox();
       this.startWithWindowsCheckBox = new System.Windows.Forms.CheckBox();
       this.offlineOnlyCheckBox = new System.Windows.Forms.CheckBox();
@@ -49,17 +52,21 @@ namespace Cyotek.DownDetector.Client
       this.unstableIntervalTimeSpanPicker = new System.Windows.Forms.TimeSpanPicker();
       this.intervalTimeSpanPicker = new System.Windows.Forms.TimeSpanPicker();
       this.logDatesAsUtcCheckBox = new System.Windows.Forms.CheckBox();
+      this.wakeUpDelayTimeSpanPicker = new System.Windows.Forms.TimeSpanPicker();
       notificationsGroupBox = new System.Windows.Forms.GroupBox();
       startupGroupBox = new System.Windows.Forms.GroupBox();
       menuGroupBox = new System.Windows.Forms.GroupBox();
       displayCountLabel = new System.Windows.Forms.Label();
       checkSettingsGroupBox = new System.Windows.Forms.GroupBox();
       maximumRedirectsLabel = new System.Windows.Forms.Label();
-      label1 = new System.Windows.Forms.Label();
+      unstableIntervalHintLabel = new System.Windows.Forms.Label();
       unstableIntervalLabel = new System.Windows.Forms.Label();
       intervalHelpLabel = new System.Windows.Forms.Label();
       intervalLabel = new System.Windows.Forms.Label();
       loggingGroupBox = new System.Windows.Forms.GroupBox();
+      powerGroupBox = new System.Windows.Forms.GroupBox();
+      wakeDelayLabel = new System.Windows.Forms.Label();
+      wakeDelayHintLabel = new System.Windows.Forms.Label();
       notificationsGroupBox.SuspendLayout();
       startupGroupBox.SuspendLayout();
       menuGroupBox.SuspendLayout();
@@ -67,6 +74,7 @@ namespace Cyotek.DownDetector.Client
       checkSettingsGroupBox.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.maximumRedirectsNumericUpDown)).BeginInit();
       loggingGroupBox.SuspendLayout();
+      powerGroupBox.SuspendLayout();
       this.SuspendLayout();
       // 
       // notificationsGroupBox
@@ -186,7 +194,7 @@ namespace Cyotek.DownDetector.Client
             | System.Windows.Forms.AnchorStyles.Right)));
       checkSettingsGroupBox.Controls.Add(this.maximumRedirectsNumericUpDown);
       checkSettingsGroupBox.Controls.Add(maximumRedirectsLabel);
-      checkSettingsGroupBox.Controls.Add(label1);
+      checkSettingsGroupBox.Controls.Add(unstableIntervalHintLabel);
       checkSettingsGroupBox.Controls.Add(this.unstableIntervalTimeSpanPicker);
       checkSettingsGroupBox.Controls.Add(unstableIntervalLabel);
       checkSettingsGroupBox.Controls.Add(intervalHelpLabel);
@@ -231,15 +239,15 @@ namespace Cyotek.DownDetector.Client
       maximumRedirectsLabel.TabIndex = 6;
       maximumRedirectsLabel.Text = "Maximum &redirect chain length:";
       // 
-      // label1
+      // unstableIntervalHintLabel
       // 
-      label1.AutoSize = true;
-      label1.ForeColor = System.Drawing.SystemColors.GrayText;
-      label1.Location = new System.Drawing.Point(95, 89);
-      label1.Name = "label1";
-      label1.Size = new System.Drawing.Size(417, 13);
-      label1.TabIndex = 5;
-      label1.Text = "Defines how long a website remains in an unstable state before being classed as o" +
+      unstableIntervalHintLabel.AutoSize = true;
+      unstableIntervalHintLabel.ForeColor = System.Drawing.SystemColors.GrayText;
+      unstableIntervalHintLabel.Location = new System.Drawing.Point(95, 89);
+      unstableIntervalHintLabel.Name = "unstableIntervalHintLabel";
+      unstableIntervalHintLabel.Size = new System.Drawing.Size(417, 13);
+      unstableIntervalHintLabel.TabIndex = 5;
+      unstableIntervalHintLabel.Text = "Defines how long a website remains in an unstable state before being classed as o" +
     "ffline";
       // 
       // unstableIntervalTimeSpanPicker
@@ -307,10 +315,52 @@ namespace Cyotek.DownDetector.Client
       this.logDatesAsUtcCheckBox.Text = "Log dates as &UTC";
       this.logDatesAsUtcCheckBox.UseVisualStyleBackColor = true;
       // 
+      // powerGroupBox
+      // 
+      powerGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      powerGroupBox.Controls.Add(wakeDelayHintLabel);
+      powerGroupBox.Controls.Add(wakeDelayLabel);
+      powerGroupBox.Controls.Add(this.wakeUpDelayTimeSpanPicker);
+      powerGroupBox.Location = new System.Drawing.Point(0, 431);
+      powerGroupBox.Name = "powerGroupBox";
+      powerGroupBox.Size = new System.Drawing.Size(662, 72);
+      powerGroupBox.TabIndex = 5;
+      powerGroupBox.TabStop = false;
+      powerGroupBox.Text = "Power";
+      // 
+      // wakeDelayLabel
+      // 
+      wakeDelayLabel.AutoSize = true;
+      wakeDelayLabel.Location = new System.Drawing.Point(3, 22);
+      wakeDelayLabel.Name = "wakeDelayLabel";
+      wakeDelayLabel.Size = new System.Drawing.Size(67, 13);
+      wakeDelayLabel.TabIndex = 2;
+      wakeDelayLabel.Text = "&Wake delay:";
+      // 
+      // wakeUpDelayTimeSpanPicker
+      // 
+      this.wakeUpDelayTimeSpanPicker.Location = new System.Drawing.Point(98, 19);
+      this.wakeUpDelayTimeSpanPicker.Name = "wakeUpDelayTimeSpanPicker";
+      this.wakeUpDelayTimeSpanPicker.Size = new System.Drawing.Size(235, 21);
+      this.wakeUpDelayTimeSpanPicker.TabIndex = 3;
+      // 
+      // wakeDelayHintLabel
+      // 
+      wakeDelayHintLabel.AutoSize = true;
+      wakeDelayHintLabel.ForeColor = System.Drawing.SystemColors.GrayText;
+      wakeDelayHintLabel.Location = new System.Drawing.Point(95, 43);
+      wakeDelayHintLabel.Name = "wakeDelayHintLabel";
+      wakeDelayHintLabel.Size = new System.Drawing.Size(399, 13);
+      wakeDelayHintLabel.TabIndex = 4;
+      wakeDelayHintLabel.Text = "How long to wait before checking availability after the computer resumes from sle" +
+    "ep";
+      // 
       // SettingsPanel
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+      this.Controls.Add(powerGroupBox);
       this.Controls.Add(loggingGroupBox);
       this.Controls.Add(notificationsGroupBox);
       this.Controls.Add(startupGroupBox);
@@ -330,6 +380,8 @@ namespace Cyotek.DownDetector.Client
       ((System.ComponentModel.ISupportInitialize)(this.maximumRedirectsNumericUpDown)).EndInit();
       loggingGroupBox.ResumeLayout(false);
       loggingGroupBox.PerformLayout();
+      powerGroupBox.ResumeLayout(false);
+      powerGroupBox.PerformLayout();
       this.ResumeLayout(false);
 
     }
@@ -345,5 +397,6 @@ namespace Cyotek.DownDetector.Client
     private System.Windows.Forms.TimeSpanPicker intervalTimeSpanPicker;
     private System.Windows.Forms.NumericUpDown maximumRedirectsNumericUpDown;
     private System.Windows.Forms.CheckBox logDatesAsUtcCheckBox;
+    private System.Windows.Forms.TimeSpanPicker wakeUpDelayTimeSpanPicker;
   }
 }

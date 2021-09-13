@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.ComponentModel;
-
-// Cyotek Down Detector
+﻿// Cyotek Down Detector
 // https://github.com/cyotek/CyotekDownDetector
 
 // Copyright © 2021 Cyotek Ltd. All Rights Reserved.
@@ -12,7 +7,12 @@ using System.ComponentModel;
 // See LICENSE.txt for the full text
 
 // Found this example useful?
-// https://www.paypal.me/cyotek
+// https://www.cyotek.com/contribute
+
+using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.ComponentModel;
 
 namespace Cyotek.DownDetector
 {
@@ -40,6 +40,8 @@ namespace Cyotek.DownDetector
 
     private TimeSpan _unstableInterval;
 
+    private TimeSpan _wakeUpDelay;
+
     #endregion Private Fields
 
     #region Public Constructors
@@ -54,6 +56,7 @@ namespace Cyotek.DownDetector
 
       _interval = TimeSpan.FromMinutes(1);
       _unstableInterval = TimeSpan.FromSeconds(90);
+      _wakeUpDelay = TimeSpan.FromSeconds(30);
       _maximumDisplayItems = 25;
       _showNotifications = true;
       _showDisplayItems = true;
@@ -73,7 +76,7 @@ namespace Cyotek.DownDetector
 
     public UriInfoCollection Addresses
     {
-      get { return _addresses; }
+      get => _addresses;
       set
       {
         if (!object.ReferenceEquals(_addresses, value))
@@ -97,49 +100,49 @@ namespace Cyotek.DownDetector
 
     public TimeSpan Interval
     {
-      get { return _interval; }
-      set { this.UpdateAssignment(ref _interval, value, nameof(this.Interval)); }
+      get => _interval;
+      set => this.UpdateAssignment(ref _interval, value, nameof(this.Interval));
     }
 
     public bool LogDatesAsUtc
     {
-      get { return _logDatesAsUtc; }
-      set { this.UpdateAssignment(ref _logDatesAsUtc, value, nameof(this.LogDatesAsUtc)); }
+      get => _logDatesAsUtc;
+      set => this.UpdateAssignment(ref _logDatesAsUtc, value, nameof(this.LogDatesAsUtc));
     }
 
     public int MaximumDisplayItems
     {
-      get { return _maximumDisplayItems; }
-      set { this.UpdateAssignment(ref _maximumDisplayItems, value, nameof(this.MaximumDisplayItems)); }
+      get => _maximumDisplayItems;
+      set => this.UpdateAssignment(ref _maximumDisplayItems, value, nameof(this.MaximumDisplayItems));
     }
 
     public int MaximumRedirects
     {
-      get { return _maximumRedirects; }
-      set { this.UpdateAssignment(ref _maximumRedirects, value, nameof(this.MaximumRedirects)); }
+      get => _maximumRedirects;
+      set => this.UpdateAssignment(ref _maximumRedirects, value, nameof(this.MaximumRedirects));
     }
 
     public bool ShowDisplayItems
     {
-      get { return _showDisplayItems; }
-      set { this.UpdateAssignment(ref _showDisplayItems, value, nameof(this.ShowDisplayItems)); }
+      get => _showDisplayItems;
+      set => this.UpdateAssignment(ref _showDisplayItems, value, nameof(this.ShowDisplayItems));
     }
 
     public bool ShowNotifications
     {
-      get { return _showNotifications; }
-      set { this.UpdateAssignment(ref _showNotifications, value, nameof(this.ShowNotifications)); }
+      get => _showNotifications;
+      set => this.UpdateAssignment(ref _showNotifications, value, nameof(this.ShowNotifications));
     }
 
     public bool ShowOfflineItemsOnly
     {
-      get { return _showOfflineItemsOnly; }
-      set { this.UpdateAssignment(ref _showOfflineItemsOnly, value, nameof(this.ShowOfflineItemsOnly)); }
+      get => _showOfflineItemsOnly;
+      set => this.UpdateAssignment(ref _showOfflineItemsOnly, value, nameof(this.ShowOfflineItemsOnly));
     }
 
     public UriStatusInfoCollection Statuses
     {
-      get { return _statuses; }
+      get => _statuses;
       set
       {
         if (!object.ReferenceEquals(_statuses, value))
@@ -163,8 +166,14 @@ namespace Cyotek.DownDetector
 
     public TimeSpan UnstableInterval
     {
-      get { return _unstableInterval; }
-      set { this.UpdateAssignment(ref _unstableInterval, value, nameof(this.UnstableInterval)); }
+      get => _unstableInterval;
+      set => this.UpdateAssignment(ref _unstableInterval, value, nameof(this.UnstableInterval));
+    }
+
+    public TimeSpan WakeUpDelay
+    {
+      get => _wakeUpDelay;
+      set => this.UpdateAssignment(ref _wakeUpDelay, value, nameof(this.WakeUpDelay));
     }
 
     #endregion Public Properties

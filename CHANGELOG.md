@@ -4,6 +4,13 @@ Cyotek Down Detector
 Change Log
 ----------
 
+### 1.3
+
+* When the computer goes to sleep, existing checks are cancelled
+* Added a new Wake Delay setting for controlling how long the
+  application waits before performing availability checks after
+  resuming from sleep
+
 ### 1.2
 
 #### Added

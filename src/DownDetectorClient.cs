@@ -1,13 +1,4 @@
-﻿using System;
-using System.ComponentModel;
-using System.Net;
-using System.Net.Http;
-using System.Net.Security;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
-using System.Timers;
-
-// Cyotek Down Detector
+﻿// Cyotek Down Detector
 // https://github.com/cyotek/CyotekDownDetector
 
 // Copyright © 2021 Cyotek Ltd. All Rights Reserved.
@@ -16,7 +7,18 @@ using System.Timers;
 // See LICENSE.txt for the full text
 
 // Found this example useful?
-// https://www.paypal.me/cyotek
+// https://www.cyotek.com/contribute
+
+using Microsoft.Win32;
+using System;
+using System.ComponentModel;
+using System.Net;
+using System.Net.Http;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
+using System.Threading.Tasks;
+using System.Timers;
+using Timer = System.Timers.Timer;
 
 namespace Cyotek.DownDetector
 {
@@ -46,6 +48,12 @@ namespace Cyotek.DownDetector
 
     private EventHandlerList _events;
 
+    private bool _isCancelRequested;
+
+    private DateTime _lastPowerEventTimestamp;
+
+    private bool _receivedWakeUpEvent;
+
     private DownDetectorSettings _settings;
 
     private SslPolicyErrors _sslPolicyErrors;
@@ -60,6 +68,8 @@ namespace Cyotek.DownDetector
 
     public DownDetectorClient()
     {
+      SystemEvents.PowerModeChanged += this.PowerModeChangedHandler;
+
       ServicePointManager.MaxServicePointIdleTime = 1000;
 
       _httpClientHandler = new HttpClientHandler
@@ -89,92 +99,50 @@ namespace Cyotek.DownDetector
     [Category("Action")]
     public event EventHandler Checked
     {
-      add
-      {
-        this.Events.AddHandler(_eventChecked, value);
-      }
-      remove
-      {
-        this.Events.RemoveHandler(_eventChecked, value);
-      }
+      add => this.Events.AddHandler(_eventChecked, value);
+      remove => this.Events.RemoveHandler(_eventChecked, value);
     }
 
     [Category("Action")]
     public event EventHandler Checking
     {
-      add
-      {
-        this.Events.AddHandler(_eventChecking, value);
-      }
-      remove
-      {
-        this.Events.RemoveHandler(_eventChecking, value);
-      }
+      add => this.Events.AddHandler(_eventChecking, value);
+      remove => this.Events.RemoveHandler(_eventChecking, value);
     }
 
     [Category("Action")]
     public event EventHandler<UriEventArgs> UriChecked
     {
-      add
-      {
-        this.Events.AddHandler(_eventUriChecked, value);
-      }
-      remove
-      {
-        this.Events.RemoveHandler(_eventUriChecked, value);
-      }
+      add => this.Events.AddHandler(_eventUriChecked, value);
+      remove => this.Events.RemoveHandler(_eventUriChecked, value);
     }
 
     [Category("Action")]
     public event EventHandler<UriEventArgs> UriChecking
     {
-      add
-      {
-        this.Events.AddHandler(_eventUriChecking, value);
-      }
-      remove
-      {
-        this.Events.RemoveHandler(_eventUriChecking, value);
-      }
+      add => this.Events.AddHandler(_eventUriChecking, value);
+      remove => this.Events.RemoveHandler(_eventUriChecking, value);
     }
 
     [Category("Action")]
     public event EventHandler<UriExceptionEventArgs> UriException
     {
-      add
-      {
-        this.Events.AddHandler(_eventUriException, value);
-      }
-      remove
-      {
-        this.Events.RemoveHandler(_eventUriException, value);
-      }
+      add => this.Events.AddHandler(_eventUriException, value);
+      remove => this.Events.RemoveHandler(_eventUriException, value);
     }
 
     [Category("Action")]
     public event EventHandler<UriSslPolicyErrorEventArgs> UriSslPolicyError
     {
-      add
-      {
-        this.Events.AddHandler(_eventUriSslPolicyError, value);
-      }
-      remove
-      {
-        this.Events.RemoveHandler(_eventUriSslPolicyError, value);
-      }
+      add => this.Events.AddHandler(_eventUriSslPolicyError, value);
+      remove => this.Events.RemoveHandler(_eventUriSslPolicyError, value);
     }
 
     [Category("Action")]
     public event EventHandler<UriStatusInfoEventArgs> UriStatusChanged
     {
-      add
-      {
-        this.Events.AddHandler(_eventUriStatusChanged, value);
-      }
-      remove
-      {
-        this.Events.RemoveHandler(_eventUriStatusChanged, value);
-      }
+      add => this.Events.AddHandler(_eventUriStatusChanged, value);
+      remove => this.Events.RemoveHandler(_eventUriStatusChanged, value);
     }
 
     #endregion Public Events
@@ -183,7 +151,7 @@ namespace Cyotek.DownDetector
 
     public DownDetectorSettings Settings
     {
-      get { return _settings; }
+      get => _settings;
       set
       {
         if (!object.ReferenceEquals(_settings, value))
@@ -205,7 +173,7 @@ namespace Cyotek.DownDetector
 
     public ISynchronizeInvoke SynchronizingObject
     {
-      get { return _synchronizingObject; }
+      get => _synchronizingObject;
       set
       {
         if (!object.ReferenceEquals(_synchronizingObject, value))
@@ -224,10 +192,7 @@ namespace Cyotek.DownDetector
     /// <summary>
     /// Gets the list of event handlers that are attached to this component.
     /// </summary>
-    protected EventHandlerList Events
-    {
-      get { return _events ?? (_events = new EventHandlerList()); }
-    }
+    protected EventHandlerList Events => _events ?? (_events = new EventHandlerList());
 
     #endregion Protected Properties
 
@@ -238,6 +203,8 @@ namespace Cyotek.DownDetector
       UriInfo[] info;
 
       this.OnChecking(EventArgs.Empty);
+
+      _isCancelRequested = false;
 
       _timer.Stop();
 
@@ -252,6 +219,11 @@ namespace Cyotek.DownDetector
         if (uriInfo.Enabled)
         {
           await this.CheckUri(uriInfo).ConfigureAwait(false);
+        }
+
+        if (_isCancelRequested)
+        {
+          break;
         }
       }
 
@@ -293,7 +265,7 @@ namespace Cyotek.DownDetector
         this.OnUriException(new UriExceptionEventArgs(uri, error));
       }
 
-      this.UpdateStatus(status, httpStatus,newStatus);
+      this.UpdateStatus(status, httpStatus, newStatus);
 
       this.OnUriChecked(args);
     }
@@ -322,6 +294,8 @@ namespace Cyotek.DownDetector
       {
         if (disposing)
         {
+          SystemEvents.PowerModeChanged -= this.PowerModeChangedHandler;
+
           _timer.Stop();
           _timer.Dispose();
           _timer = null;
@@ -505,7 +479,6 @@ namespace Cyotek.DownDetector
 
       try
       {
-
         httpStatus = await this.GetResponseCode(uriInfo).ConfigureAwait(false);
 
         newStatus = httpStatus == HttpStatusCode.OK
@@ -531,6 +504,45 @@ namespace Cyotek.DownDetector
       return Tuple.Create(newStatus, httpStatus, error);
     }
 
+    private bool IsWaitingAfterResume()
+    {
+      bool result;
+
+      result = false;
+
+      if (_receivedWakeUpEvent)
+      {
+        if (DateTime.UtcNow < _lastPowerEventTimestamp + _settings.WakeUpDelay)
+        {
+          // delay hasn't elapsed yet, wait
+          result = true;
+        }
+        else
+        {
+          // delay has elapsed, reset flags
+          _receivedWakeUpEvent = false;
+        }
+      }
+
+      return result;
+    }
+
+    private void PowerModeChangedHandler(object sender, PowerModeChangedEventArgs e)
+    {
+      _lastPowerEventTimestamp = DateTime.UtcNow;
+
+      switch (e.Mode)
+      {
+        case PowerModes.Resume:
+          _receivedWakeUpEvent = true;
+          break;
+
+        case PowerModes.Suspend:
+          _isCancelRequested = true;
+          break;
+      }
+    }
+
     private bool ServerCertificateCustomValidationCallback(HttpRequestMessage request, X509Certificate2 certificate, X509Chain certificateChain, SslPolicyErrors sslPolicyErrors)
     {
       if (sslPolicyErrors != SslPolicyErrors.None)
@@ -552,7 +564,10 @@ namespace Cyotek.DownDetector
 
     private async void TimerElapsedHandler(object sender, ElapsedEventArgs e)
     {
-      await this.CheckAll().ConfigureAwait(false);
+      if (!this.IsWaitingAfterResume())
+      {
+        await this.CheckAll().ConfigureAwait(false);
+      }
     }
 
     private void UpdateStatus(UriStatusInfo status, HttpStatusCode httpStatus, UriStatus newStatus)
