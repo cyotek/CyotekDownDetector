@@ -3,5 +3,6 @@ bin/
 obj/
 _NCrunch_*/
 packages/
+dist/
 
 *.user
