@@ -226,7 +226,11 @@ namespace Cyotek.DownDetector.Client
 
       for (int i = 0; i < addresses.Count; i++)
       {
-        if (statuses.TryGetValue(addresses[i], out UriStatusInfo statusInfo) && statusInfo.Status > worstStatus)
+        UriInfo address;
+
+        address = addresses[i];
+
+        if (address.Enabled && statuses.TryGetValue(address, out UriStatusInfo statusInfo) && statusInfo.Status > worstStatus)
         {
           worstStatus = statusInfo.Status;
 
@@ -282,35 +286,37 @@ namespace Cyotek.DownDetector.Client
 
           for (int i = 0; i < addresses.Count; i++)
           {
-            Uri uri;
-            UriStatus status;
+            UriInfo address;
 
-            uri = addresses[i].Uri;
+            address = addresses[i];
 
-            status = statuses.TryGetValue(uri, out UriStatusInfo statusInfo)
-              ? statusInfo.Status
-              : UriStatus.Unknown;
-
-            if (status != UriStatus.Online || !_client.Settings.ShowOfflineItemsOnly)
+            if (address.Enabled)
             {
-              ToolStripMenuItem item;
+              Uri uri;
+              UriStatus status;
 
-              item = new ToolStripMenuItem
+              uri = address.Uri;
+
+              status = statuses.TryGetValue(uri, out UriStatusInfo statusInfo)
+                ? statusInfo.Status
+                : UriStatus.Unknown;
+
+              if (status != UriStatus.Online || !_client.Settings.ShowOfflineItemsOnly)
               {
-                Text = uri.AbsoluteUri,
-                Tag = uri,
-                Image = this.GetStatusImage(status)
-              };
+                ToolStripMenuItem item;
 
-              item.Click += this.UrlMenuClickHandler;
+                item = new ToolStripMenuItem { Text = uri.AbsoluteUri, Tag = uri, Image = this.GetStatusImage(status) };
 
-              items.Insert(index, item);
+                item.Click += this.UrlMenuClickHandler;
 
-              index++;
+                items.Insert(index, item);
 
-              if (index > _client.Settings.MaximumDisplayItems)
-              {
-                break;
+                index++;
+
+                if (index > _client.Settings.MaximumDisplayItems)
+                {
+                  break;
+                }
               }
             }
           }
