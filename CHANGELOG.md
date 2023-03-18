@@ -4,6 +4,14 @@ Cyotek Down Detector
 Change Log
 ----------
 
+### 1.3.2
+
+#### Fixed
+
+* Status icons and menu entries are no longer displayed for
+  URI's which have invalid certificates and the "Ignore SSL
+  Errors" option is set
+
 ### 1.3.1
 
 #### Fixed
