@@ -11,7 +11,7 @@ using System.Windows.Forms;
 // Cyotek Down Detector
 // https://github.com/cyotek/CyotekDownDetector
 
-// Copyright © 2021 Cyotek Ltd. All Rights Reserved.
+// Copyright © 2021-2023 Cyotek Ltd. All Rights Reserved.
 
 // This work is licensed under the MIT License.
 // See LICENSE.txt for the full text
@@ -230,7 +230,10 @@ namespace Cyotek.DownDetector.Client
 
         address = addresses[i];
 
-        if (address.Enabled && statuses.TryGetValue(address, out UriStatusInfo statusInfo) && statusInfo.Status > worstStatus)
+        if (address.Enabled
+          && statuses.TryGetValue(address, out UriStatusInfo statusInfo)
+          && !this.IsIgnoredStatus(address, statusInfo)
+          && statusInfo.Status > worstStatus)
         {
           worstStatus = statusInfo.Status;
 
@@ -250,6 +253,13 @@ namespace Cyotek.DownDetector.Client
 
       _logStream = File.Open(_logFileName, FileMode.Append, FileAccess.Write, FileShare.Read);
       _logWriter = new StreamWriter(_logStream, Encoding.UTF8);
+    }
+
+    private bool IsIgnoredStatus(UriInfo address, UriStatusInfo statusInfo)
+    {
+      return address.IgnoreSslErrors
+        && statusInfo != null
+        && statusInfo.Status == UriStatus.InvalidCertificate;
     }
 
     private void LoadSettings()
@@ -301,7 +311,8 @@ namespace Cyotek.DownDetector.Client
                 ? statusInfo.Status
                 : UriStatus.Unknown;
 
-              if (status != UriStatus.Online || !_client.Settings.ShowOfflineItemsOnly)
+              if ((status != UriStatus.Online || !_client.Settings.ShowOfflineItemsOnly)
+                && !this.IsIgnoredStatus(address, statusInfo))
               {
                 ToolStripMenuItem item;
 
